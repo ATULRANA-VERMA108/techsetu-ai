@@ -1,0 +1,93 @@
+spring:
+  application:
+    name: techsetu-backend
+  profiles:
+    active: dev
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+
+---
+# ----------------------------------------------------
+# DEV PROFILE: Local development (standalone services)
+# ----------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/techsetu_db
+    username: techsetu_admin
+    password: techsetu_secure_pass
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/techsetu_db
+    redis:
+      host: localhost
+      port: 6379
+
+app:
+  jwt:
+    secret: 9a6234f2b1d3e5f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f123456789
+    expirationMs: 86400000 # 24 hours
+  gemini:
+    apiKey: ${GEMINI_API_KEY:}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+---
+# ----------------------------------------------------
+# DOCKER PROFILE: Running inside Docker Compose
+# ----------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/techsetu_db
+    username: techsetu_admin
+    password: techsetu_secure_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/techsetu_db
+    redis:
+      host: redis
+      port: 6379
+
+app:
+  jwt:
+    secret: 9a6234f2b1d3e5f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f123456789
+    expirationMs: 86400000
+  gemini:
+    apiKey: ${GEMINI_API_KEY:}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /

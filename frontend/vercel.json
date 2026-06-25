@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-live-backend-service.onrender.com/api/$1"
+    },
+    {
+      "source": "/ws/(.*)",
+      "destination": "https://your-live-backend-service.onrender.com/ws/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
