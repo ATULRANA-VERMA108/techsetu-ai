@@ -18,7 +18,7 @@ import {
   Newspaper
 } from 'lucide-react';
 
-export default function Sidebar() {
+export default function Sidebar({ onToggleLiveNews, isLiveNewsOpen }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
@@ -82,6 +82,29 @@ export default function Sidebar() {
             );
           })}
         </nav>
+
+        {/* Live News Drawer Toggle */}
+        <button
+          onClick={onToggleLiveNews}
+          className={`flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-[11px] transition-all duration-200 group border-l-4 shrink-0 ${
+            isLiveNewsOpen 
+              ? 'bg-cyber-purple/20 border-cyber-purple text-white shadow-sm font-semibold' 
+              : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-pink opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyber-pink"></span>
+            </span>
+            <span>Live Tech Feed</span>
+          </div>
+          <span className={`text-[8px] uppercase px-1.5 py-0.2 rounded font-extrabold ${
+            isLiveNewsOpen ? 'bg-cyber-purple/30 text-cyber-cyan' : 'bg-cyber-pink/20 text-cyber-pink'
+          }`}>
+            {isLiveNewsOpen ? 'Hide' : 'Live'}
+          </span>
+        </button>
       </div>
 
       {/* User Footer block */}

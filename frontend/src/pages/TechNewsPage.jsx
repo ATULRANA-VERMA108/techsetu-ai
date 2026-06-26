@@ -1,114 +1,187 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/common/Header.jsx';
+import { useSearchParams, Link } from 'react-router-dom';
 import { 
   ThumbsUp, 
   ThumbsDown, 
   Bookmark, 
   ExternalLink, 
   Sparkles, 
-  Filter, 
   Clock, 
-  Globe,
-  Database,
-  Code
+  Globe
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const INITIAL_NEWS = [
   {
     id: 'news-1',
-    category: 'AI & ML',
-    tag: 'AI/ML',
-    title: 'OpenAI Unveils GPT-5 with Advanced Multi-Agent Collaboration Loops',
-    summary: 'OpenAI has officially released GPT-5. The model introduces native multi-agent orchestration, enabling multiple sub-instances to divide tasks, self-correct bugs, and run parallel executions. Early benchmarks demonstrate a 99.4% logic accuracy score on standard coding evaluations.',
-    author: 'Taha Jaffri',
+    category: 'Company Update',
+    tag: 'Google',
+    title: 'Google Launches Gemini 2.5 Ultra: Advanced Multi-Agent Planning & 3M Context',
+    summary: 'Google officially released Gemini 2.5 Ultra, showcasing a 3-million token context window. In addition, Google integrates autonomous planning agents directly within Android studio for compiling, debugging, and deploying modules natively. Under the hood, Google utilizes TPU v6 clusters to accelerate inference speeds by 4x.',
+    author: 'Sundar Pichai',
     time: '2 hours ago',
-    source: 'TechCrunch',
-    url: 'https://techcrunch.com'
+    source: 'Google Blog',
+    url: 'https://blog.google/technology/ai/gemini-2-5-ultra/',
+    techStack: ['Java', 'Kotlin', 'Python', 'C++', 'Go', 'Angular', 'TensorFlow', 'TPU'],
+    techDeals: 'Google Cloud signs massive $2B deal with Stripe for AI compute nodes integration.',
+    activeJobs: [
+      { role: 'Staff Software Engineer - Android AI', location: 'Mountain View, CA', targetDsa: 'Invert Binary Tree (Tier 1)' },
+      { role: 'Cloud Solutions Architect - TPU Specialist', location: 'Seattle, WA', targetDsa: 'Number of Islands (Tier 1)' }
+    ]
   },
   {
     id: 'news-2',
-    category: 'Databases',
-    tag: 'MongoDB',
-    title: 'MongoDB 8.0 Launches with 3x Faster Query Engines & Vector Indexes',
-    summary: 'MongoDB has announced version 8.0 with massive performance upgrades. It features 300% faster concurrent aggregation processing and deep Mongoose schema support. Crucially, native vector search algorithms have been integrated directly into the database engine for low-latency AI queries.',
-    author: 'Sarah Jenkins',
+    category: 'Tech Deals',
+    tag: 'Stripe',
+    title: 'Stripe Partners with Google Cloud to Power Next-Gen Billing Orchestration',
+    summary: 'Stripe announced a strategic partnership with Google Cloud to move its core billing orchestration and ledger database services to GCP. This partnership allows Stripe to process over 150,000 transactions per second during peak holiday seasons without latency spikes. Stripe\'s backend uses Ruby, Go, and React.',
+    author: 'Patrick Collison',
     time: '5 hours ago',
-    source: 'Hacker News',
-    url: 'https://news.ycombinator.com'
+    source: 'Stripe Engineering',
+    url: 'https://stripe.com/newsroom',
+    techStack: ['Ruby on Rails', 'Go', 'React', 'Scala', 'PostgreSQL', 'AWS', 'GCP'],
+    techDeals: '$2B strategic partnership contract with Google Cloud for infra scale.',
+    activeJobs: [
+      { role: 'Frontend Engineer - Billing UI', location: 'San Francisco, CA', targetDsa: 'Group Anagrams (Tier 2)' },
+      { role: 'Senior Infrastructure Engineer - Go Platform', location: 'Remote', targetDsa: 'Top K Frequent Elements (Tier 1)' }
+    ]
   },
   {
     id: 'news-3',
-    category: 'Google',
-    tag: 'Google Developers',
-    title: 'Google I/O 2026: Gemini 2.5 Pro Debuts with 2M Token Context Support',
-    summary: 'Google announced Gemini 2.5 Pro at its developer keynote. The upgraded foundation model offers an unprecedented 2-million token context window. Developers can now feed entire codebases directly into the API for instant refactoring, optimization, and system architecture mapping.',
-    author: 'Amit Sharma',
+    category: 'Tech Jobs',
+    tag: 'Microsoft',
+    title: 'Microsoft Copilot Dev Division Hires Over 500 Engineers for Azure Scaling',
+    summary: 'Microsoft is expanding its Copilot Dev Division, opening 500+ remote vacancies for Azure and AI integration. The engineering team is focusing on migrating legacy services to dynamic TypeScript and Python pipelines. The roles are mapped to Tier 1 SDE guidelines with competitive packages.',
+    author: 'Satya Nadella',
     time: '1 day ago',
-    source: 'VentureBeat',
-    url: 'https://venturebeat.com'
+    source: 'Microsoft Press',
+    url: 'https://blogs.microsoft.com',
+    techStack: ['C#', 'TypeScript', 'Python', 'C++', 'React', 'Azure Cosmos DB', 'Azure OpenAI'],
+    techDeals: 'Copilot integration contract with Office 365 Enterprise suite globally.',
+    activeJobs: [
+      { role: 'Azure AI Platform Engineer', location: 'Redmond, WA', targetDsa: 'Valid Palindrome (Tier 1)' },
+      { role: 'Copilot Senior Frontend Developer', location: 'Remote', targetDsa: 'Two Sum (Tier 1)' }
+    ]
   },
   {
     id: 'news-4',
-    category: 'Hackathons',
-    tag: 'AI Hackathons',
-    title: 'GitHub Universe AI-Agent Hackathon 2026 Announced with $100k Pool',
-    summary: 'GitHub has launched its global Universe Hackathon with a $100,000 prize pool. This year, the focus is entirely on AI-agent workflows, autonomous coding loops, and developer productivity tools. Teams have 3 weeks to deploy functional, sandbox-secured coding assistants.',
-    author: 'Developer Portal',
-    time: '1 day ago',
-    source: 'GitHub Blog',
-    url: 'https://github.blog'
+    category: 'Technology Stack',
+    tag: 'Netflix',
+    title: 'How Netflix Re-engineered its Video Streaming Pipeline using Rust and WebAssembly',
+    summary: 'Netflix engineering published a detailed Medium article describing how they replaced their legacy JavaScript video players with custom Rust compiled to WebAssembly. This migration reduced CPU overhead on Smart TVs by 42% and minimized buffering times globally, running on their custom CDN network.',
+    author: 'Greg Peters',
+    time: '2 days ago',
+    source: 'Netflix TechBlog',
+    url: 'https://netflixtechblog.com',
+    techStack: ['Java', 'Rust', 'Node.js', 'React', 'WebAssembly', 'AWS', 'Cassandra'],
+    techDeals: 'CDN hardware supply contract with Intel for custom encoding chips.',
+    activeJobs: [
+      { role: 'Senior Player Platform Engineer', location: 'Los Gatos, CA', targetDsa: 'Container With Most Water (Tier 1)' },
+      { role: 'Cloud Infrastructure Architect', location: 'Los Gatos, CA', targetDsa: 'Longest Substring Without Repeating Characters (Tier 2)' }
+    ]
   },
   {
     id: 'news-5',
-    category: 'Global AI',
-    tag: 'Regulation',
-    title: 'EU AI Act Enters Full Enforcement Stage for Foundation Models',
-    summary: 'The European Union AI Act has reached its active enforcement phase. All foundation model providers must now undergo strict compliance audits covering training data transparency, energy efficiency metrics, and red-team safety verification protocols before launching products in the EU.',
-    author: 'Helena Vance',
+    category: 'AI Research',
+    tag: 'Meta',
+    title: 'Meta Open-Sources Llama 4.5: PyTorch Native Environments & Self-Debugging Code',
+    summary: 'Meta has open-sourced Llama 4.5. The model is built natively to interface with PyTorch execution loops. It can write code, run self-tests, verify output correctness, and automatically debug compile errors. Developers can integrate this directly into local development setups.',
+    author: 'Mark Zuckerberg',
     time: '2 days ago',
-    source: 'Reuters',
-    url: 'https://reuters.com'
+    source: 'Meta AI Blog',
+    url: 'https://ai.meta.com',
+    techStack: ['React', 'React Native', 'PyTorch', 'C++', 'PHP/Hack', 'PostgreSQL'],
+    techDeals: 'Open-source AI distribution partnership with Hugging Face and AWS Bedrock.',
+    activeJobs: [
+      { role: 'PyTorch Core Contributor SDE', location: 'New York, NY', targetDsa: 'Group Anagrams (Tier 1)' },
+      { role: 'AI Safety Red Team Lead', location: 'Menlo Park, CA', targetDsa: 'Two Sum (Tier 1)' }
+    ]
   },
   {
     id: 'news-6',
-    category: 'AI & ML',
-    tag: 'DeepMind',
-    title: 'Google DeepMind Open-Sources AlphaFold 3 Weights for Research',
-    summary: 'In a major win for computational biology, DeepMind has open-sourced the model parameters and weights of AlphaFold 3. Researchers worldwide can now run local instances to predict molecular complexes, protein-DNA bindings, and design custom enzymes for therapeutics.',
-    author: 'Dr. Evelyn Cole',
-    time: '2 days ago',
-    source: 'Nature Portfolio',
-    url: 'https://nature.com'
+    category: 'Article Insight',
+    tag: 'Medium',
+    title: 'Medium Migrates Core Feed Algorithm to Real-Time Collaborative Filtering',
+    summary: 'Medium SDEs detailed their migration from Batch Spark jobs to real-time collaborative filtering using Redis Enterprise and Go. Readers now receive content updates in under 200ms of publish. They also discussed their stack: Node.js, Go, React, and serverless AWS.',
+    author: 'Tony Stubblebine',
+    time: '3 days ago',
+    source: 'Medium Engineering',
+    url: 'https://medium.com/engineering',
+    techStack: ['Node.js', 'Go', 'React', 'Redis', 'AWS', 'Aurora PostgreSQL'],
+    techDeals: 'Redis Enterprise partnership for global cache clustering scale.',
+    activeJobs: [
+      { role: 'Senior Backend Engineer - Feed & Discovery', location: 'Remote', targetDsa: 'Valid Anagram (Tier 3)' },
+      { role: 'Fullstack Developer', location: 'New York, NY', targetDsa: 'Contains Duplicate (Tier 3)' }
+    ]
   },
   {
     id: 'news-7',
-    category: 'Databases',
-    tag: 'Mongoose ORM',
-    title: 'Mongoose Adds Native Vector Schema Types & Search Index Integrations',
-    summary: 'The developers behind Mongoose ORM have released version 8.4, introducing native support for vector fields. Node.js applications can now declare mongoose schemas with vector types and run similarity searches using standard mongo queries without external client drivers.',
-    author: 'Ryan Dahl',
+    category: 'Company Update',
+    tag: 'Amazon',
+    title: 'Amazon Web Services Launches Bedrock Agents for Autonomous App Compilation',
+    summary: 'Amazon Web Services unveiled Bedrock Agents, enabling users to orchestrate complex multi-step workflows. AWS engineers utilize Java and Python to build secure sandbox environments where agents compile, run, and host serverless applications. AWS is actively hiring Solutions Architects.',
+    author: 'Andy Jassy',
     time: '3 days ago',
-    source: 'Dev.to',
-    url: 'https://dev.to'
+    source: 'AWS News',
+    url: 'https://aws.amazon.com',
+    techStack: ['Java', 'Python', 'C++', 'AWS Services (DynamoDB, Lambda, EC2)', 'React'],
+    techDeals: '$4B investment expansion in Anthropic AI models hosting contract.',
+    activeJobs: [
+      { role: 'AWS Bedrock SDE II', location: 'Boston, MA', targetDsa: 'Jump Game (Tier 1)' },
+      { role: 'Senior Solutions Architect - Generative AI', location: 'Dallas, TX', targetDsa: 'Maximum Segment Sum (Tier 1)' }
+    ]
   },
   {
     id: 'news-8',
-    category: 'Hackathons',
-    tag: 'Microsoft Cup',
-    title: 'Microsoft Imagine Cup 2026 Highlights Social Impact AI Projects',
-    summary: 'Microsoft kicked off the 2026 Imagine Cup startup competition. This iteration prioritizes AI applications targeting global sustainability, accessibility, and clean energy. Winning student developers will receive mentorship from Azure engineers and seed grants to scale projects.',
-    author: 'Satya Nadella',
+    category: 'Technology Stack',
+    tag: 'Airbnb',
+    title: 'Airbnb Redesigns Search Backend to Support Real-Time Vector Similarity Search',
+    summary: 'Airbnb engineering shared how they upgraded their search queries to support vector-based property similarity. By integrating Elasticsearch vector databases and PyTorch embeddings, Airbnb matches users to stays with 85% higher satisfaction metrics. The stack uses React and Java.',
+    author: 'Brian Chesky',
     time: '4 days ago',
-    source: 'Microsoft Press',
-    url: 'https://microsoft.com'
+    source: 'Airbnb Engineering',
+    url: 'https://medium.com/airbnb-engineering',
+    techStack: ['Ruby', 'Java', 'React', 'TypeScript', 'Elasticsearch Vector Search', 'AWS'],
+    techDeals: 'Strategic API integration with local eco-tourism databases.',
+    activeJobs: [
+      { role: 'Senior Search SDE', location: 'San Francisco, CA', targetDsa: 'Design a Rate Limiter (Tier 1)' },
+      { role: 'UI Platform Engineer - React Core', location: 'San Francisco, CA', targetDsa: 'Linked List Cycle (Tier 2)' }
+    ]
+  },
+  {
+    id: 'news-9',
+    category: 'Tech Deals',
+    tag: 'Uber',
+    title: 'Uber signs Cloud Migration Contract with Oracle Cloud Infrastructure (OCI)',
+    summary: 'Uber has selected OCI to handle its high-throughput real-time routing algorithms. Uber utilizes Go and Java on OCI Kubernetes to calculate optimal travel pricing and driver matching within 100ms. This contract will save Uber over $120M in hosting costs over 3 years.',
+    author: 'Dara Khosrowshahi',
+    time: '5 days ago',
+    source: 'Uber Engineering',
+    url: 'https://uber.com/newsroom',
+    techStack: ['Go', 'Java', 'Python', 'React', 'Oracle Cloud', 'Kubernetes', 'PostgreSQL'],
+    techDeals: '$120M cloud migration deal with Oracle for real-time compute scaling.',
+    activeJobs: [
+      { role: 'Real-Time Routing SDE II', location: 'San Francisco, CA', targetDsa: 'Number of Islands (Tier 1)' },
+      { role: 'Lead Infrastructure Engineer', location: 'Seattle, WA', targetDsa: 'Design a Chat System (Tier 2)' }
+    ]
   }
 ];
 
 export default function TechNewsPage() {
-  const [newsList, setNewsList] = useState(INITIAL_NEWS);
+  const [newsList] = useState(INITIAL_NEWS);
   const [filterCategory, setFilterCategory] = useState('All');
   
+  const [searchParams] = useSearchParams();
+  const queryId = searchParams.get('id');
+  const [selectedId, setSelectedId] = useState(queryId || INITIAL_NEWS[0].id);
+
+  // Sync selected article when URL search params change
+  useEffect(() => {
+    if (queryId) {
+      setSelectedId(queryId);
+    }
+  }, [queryId]);
+
   // Interaction states stored locally
   const [likedIds, setLikedIds] = useState(() => JSON.parse(localStorage.getItem('news_likes') || '[]'));
   const [dislikedIds, setDislikedIds] = useState(() => JSON.parse(localStorage.getItem('news_dislikes') || '[]'));
@@ -177,9 +250,9 @@ export default function TechNewsPage() {
   };
 
   // Sort and filter articles
-  const sortedAndFilteredNews = INITIAL_NEWS
+  const sortedAndFilteredNews = newsList
     .filter(news => {
-      // Banish disliked articles to hide them or put them at the bottom
+      // Hide disliked articles
       if (dislikedIds.includes(news.id)) return false;
       if (filterCategory === 'All') return true;
       return news.category === filterCategory;
@@ -190,156 +263,245 @@ export default function TechNewsPage() {
       const isRecommended = categoryWeight > 0;
       return { ...news, weight: categoryWeight, isRecommended };
     })
-    // Sort by recommendation weight first, then keep original order
     .sort((a, b) => b.weight - a.weight);
 
-  const categories = ['All', 'AI & ML', 'Google', 'Databases', 'Hackathons', 'Global AI'];
+  const activeArticle = newsList.find(news => news.id === selectedId) || newsList[0];
+
+  const categories = ['All', 'Company Update', 'Tech Deals', 'Tech Jobs', 'AI Research', 'Technology Stack', 'Article Insight'];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 font-sans pb-16">
+    <div className="max-w-6xl mx-auto space-y-6 font-sans pb-16">
       
       {/* Page Header */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-cyber-cyan text-xs font-bold uppercase tracking-wider">
           <Globe className="w-4 h-4" />
-          <span>Inshorts-Style Tech News</span>
+          <span>News & Insights Center</span>
         </div>
         <h2 className="text-3xl font-display font-bold text-white leading-tight">
           Tech Industry <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyber-purple to-cyber-pink">Briefings</span>
         </h2>
         <p className="text-slate-400 text-sm max-w-xl leading-relaxed">
-          Stay ahead of the curve. Concise 60-word updates covering AI/ML advancements, MongoDB developments, hackathons, and Google releases, prioritized based on your interests.
+          Stay ahead of the curve. Scannable updates from Medium, tech blogs, and corporate engineering divisions, outlining their tech stacks, job openings, and tech deals.
         </p>
       </div>
 
-      {/* Filter Bar */}
-      <div className="glass-panel p-4 rounded-xl border border-white/5 flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-          <Filter className="w-4 h-4 text-cyber-purple" />
-          <span>Category Filter:</span>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilterCategory(cat)}
-              className={`px-3 py-1 rounded-lg text-[10px] font-semibold transition-all ${
-                filterCategory === cat
-                  ? 'bg-gradient-to-r from-cyber-purple to-cyber-pink text-white shadow-glow-purple'
-                  : 'text-slate-400 hover:text-white bg-white/5'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Vertical Stream of Inshorts cards */}
-      <div className="space-y-6 max-w-2xl mx-auto">
-        {sortedAndFilteredNews.length === 0 ? (
-          <div className="glass-panel p-12 rounded-2xl text-center border border-white/5">
-            <p className="text-slate-400 text-xs">No articles matching your criteria are available.</p>
+      {/* Main split-screen container */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        
+        {/* Left Column: Headlines list (1/3 width) */}
+        <div className="lg:col-span-1 space-y-4">
+          
+          {/* Categories Selector */}
+          <div className="glass-panel p-3 rounded-xl flex flex-col gap-2">
+            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Filter News</span>
+            <div className="flex flex-wrap gap-1">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setFilterCategory(cat);
+                    // auto-select first matching news in this category
+                    const matching = newsList.filter(news => {
+                      if (dislikedIds.includes(news.id)) return false;
+                      return cat === 'All' || news.category === cat;
+                    });
+                    if (matching.length > 0) {
+                      setSelectedId(matching[0].id);
+                    }
+                  }}
+                  className={`px-2 py-1 rounded text-[9.5px] font-bold transition-all cursor-pointer ${
+                    filterCategory === cat
+                      ? 'bg-gradient-to-r from-cyber-purple to-cyber-pink text-white shadow-glow-purple'
+                      : 'text-slate-400 hover:text-white bg-white/5 hover:bg-white/10'
+                  }`}
+                >
+                  {cat.split(' ')[0]}
+                </button>
+              ))}
+            </div>
           </div>
-        ) : (
-          sortedAndFilteredNews.map((news) => {
-            const isLiked = likedIds.includes(news.id);
-            const isBookmarked = bookmarkedIds.includes(news.id);
-            
-            return (
-              <div 
-                key={news.id} 
-                className="glass-panel rounded-2xl border border-white/5 hover:border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between p-5 relative shadow-lg"
-              >
-                {/* Recommended Tag */}
-                {news.isRecommended && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1 bg-cyber-purple/20 border border-cyber-purple/40 text-[9px] font-bold text-cyber-cyan px-2 py-0.5 rounded-full select-none shadow-sm animate-pulse">
+
+          {/* Headlines Stream */}
+          <div className="glass-panel rounded-2xl p-3 flex flex-col gap-2 max-h-[60vh] overflow-y-auto pr-1">
+            {sortedAndFilteredNews.length === 0 ? (
+              <p className="text-slate-500 text-[11px] text-center py-8">No articles available.</p>
+            ) : (
+              sortedAndFilteredNews.map(news => {
+                const isSelected = selectedId === news.id;
+                return (
+                  <div
+                    key={news.id}
+                    onClick={() => setSelectedId(news.id)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 relative ${
+                      isSelected
+                        ? 'bg-gradient-to-r from-cyber-purple/15 to-cyber-pink/5 border-cyber-purple'
+                        : 'bg-white/5 hover:bg-white/10 border-transparent border-l-4'
+                    }`}
+                  >
+                    {news.isRecommended && (
+                      <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-cyber-cyan animate-pulse" title="Recommended for you" />
+                    )}
+                    <div className="flex items-center gap-1.5 text-[8.5px] font-extrabold uppercase text-slate-500">
+                      <span className="text-cyber-pink">#{news.tag}</span>
+                      <span>•</span>
+                      <span>{news.time}</span>
+                    </div>
+                    <h4 className={`text-[12px] font-bold leading-snug transition-colors ${
+                      isSelected ? 'text-white font-semibold' : 'text-slate-300 font-medium'
+                    }`}>
+                      {news.title}
+                    </h4>
+                    <span className="text-[9.5px] text-slate-500 font-medium">via {activeArticle.id === news.id ? activeArticle.source : news.source}</span>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Detailed Pane (2/3 width) */}
+        <div className="lg:col-span-2">
+          {activeArticle ? (
+            <div className="glass-panel rounded-2xl p-6 border border-white/5 space-y-6 relative shadow-2xl">
+              
+              {/* Top Meta info */}
+              <div className="flex items-center justify-between border-b border-cyber-border pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-lg bg-cyber-purple/20 border border-cyber-purple/30 text-[9.5px] font-extrabold text-cyber-pink uppercase tracking-wide">
+                    {activeArticle.category}
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    {activeArticle.time}
+                  </span>
+                </div>
+
+                {activeArticle.isRecommended && (
+                  <div className="flex items-center gap-1 bg-cyber-cyan/10 border border-cyber-cyan/30 text-[9px] font-extrabold text-cyber-cyan px-2.5 py-0.5 rounded-full select-none shadow-sm animate-pulse">
                     <Sparkles className="w-3 h-3" />
                     <span>RECOMMENDED</span>
                   </div>
                 )}
+              </div>
 
-                {/* Card Content */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-bold text-cyber-pink uppercase tracking-wider">
-                      #{news.tag}
-                    </span>
-                    <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {news.time}
-                    </span>
+              {/* Title & Concise Summary */}
+              <div className="space-y-3">
+                <h3 className="text-xl font-display font-extrabold leading-snug">
+                  {activeArticle.title}
+                </h3>
+                <p className="text-[13.5px] text-slate-300 leading-relaxed font-sans font-medium">
+                  {activeArticle.summary}
+                </p>
+                <div className="text-[10.5px] text-slate-400 font-semibold">
+                  Published by <span className="text-slate-200">@{activeArticle.author}</span> via <span className="text-cyber-cyan font-bold">{activeArticle.source}</span>
+                </div>
+              </div>
+
+              {/* Deep Company Insights widget */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-cyber-border pt-5">
+                
+                {/* Tech Stack used by Company */}
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col gap-2">
+                  <span className="text-[10px] font-bold text-cyber-cyan uppercase tracking-wider">Company Tech Stack</span>
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    {activeArticle.techStack?.map(tech => (
+                      <span key={tech} className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9.5px] text-slate-300 font-medium uppercase tracking-wide">
+                        {tech}
+                      </span>
+                    )) || <span className="text-slate-500 text-[10px]">No stack details available.</span>}
                   </div>
-
-                  <h3 className="text-base font-display font-bold text-white leading-snug">
-                    {news.title}
-                  </h3>
-
-                  <p className="text-[12.5px] text-slate-300 leading-relaxed font-sans font-medium">
-                    {news.summary}
-                  </p>
                 </div>
 
-                {/* Card Footer actions */}
-                <div className="border-t border-white/5 pt-4 mt-4 flex items-center justify-between flex-wrap gap-2 text-[10px] text-slate-500">
-                  <div className="flex items-center gap-1 font-medium">
-                    <span>By <span className="text-slate-300">@{news.author}</span></span>
-                    <span>•</span>
-                    <span>via <span className="text-cyber-cyan font-bold">{news.source}</span></span>
-                  </div>
+                {/* Tech Deals & Acquisitions */}
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col gap-2">
+                  <span className="text-[10px] font-bold text-cyber-pink uppercase tracking-wider">Latest Deals & Scaling</span>
+                  <p className="text-[11.5px] text-slate-300 leading-relaxed font-medium mt-1">
+                    {activeArticle.techDeals || "No active tech deals reported recently."}
+                  </p>
+                </div>
+              </div>
 
-                  <div className="flex items-center gap-4">
-                    {/* Thumbs Up (Like) */}
-                    <button 
-                      onClick={() => handleLike(news.id)}
-                      className={`flex items-center gap-1 hover:text-green-400 transition-colors ${
-                        isLiked ? 'text-green-400 font-bold' : ''
-                      }`}
-                      title="Like and recommend similar categories"
-                    >
-                      <ThumbsUp className={`w-3.5 h-3.5 ${isLiked ? 'fill-green-400/25' : ''}`} />
-                      <span>{isLiked ? 'Liked' : 'Like'}</span>
-                    </button>
+              {/* Active Jobs & DSA Target openings */}
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3">
+                <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider block">Target Job Openings & DSA Preparation</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1">
+                  {activeArticle.activeJobs?.map((job, idx) => (
+                    <div key={idx} className="p-3 bg-black/20 border border-white/5 rounded-lg flex flex-col gap-2 justify-between">
+                      <div>
+                        <h5 className="text-[11.5px] font-bold text-slate-200 leading-tight">{job.role}</h5>
+                        <span className="text-[9.5px] text-slate-500 font-semibold">{job.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
+                        <span className="text-[9.5px] text-cyber-cyan font-bold italic">{job.targetDsa}</span>
+                        <Link 
+                          to="/dsa" 
+                          className="flex items-center gap-1 text-[9.5px] font-extrabold bg-gradient-to-r from-cyber-purple to-cyber-pink hover:scale-105 transition-all text-white px-2.5 py-1 rounded-lg"
+                        >
+                          <span>Practice</span>
+                          <ExternalLink className="w-2.5 h-2.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  )) || <span className="text-slate-500 text-[10px]">No active vacancies listed currently.</span>}
+                </div>
+              </div>
 
-                    {/* Thumbs Down (Dislike/Hide) */}
-                    <button 
-                      onClick={() => handleDislike(news.id)}
-                      className="flex items-center gap-1 hover:text-red-400 transition-colors"
-                      title="Dislike and filter from feed"
-                    >
-                      <ThumbsDown className="w-3.5 h-3.5" />
-                      <span>Hide</span>
-                    </button>
+              {/* Engagement Controls & Article Link */}
+              <div className="border-t border-cyber-border pt-4 flex items-center justify-between flex-wrap gap-3">
+                
+                {/* Visit source */}
+                <a
+                  href={activeArticle.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-cyber-cyan border border-cyber-cyan/20 transition-all cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Read Official Article</span>
+                </a>
 
-                    {/* Bookmark */}
-                    <button 
-                      onClick={() => handleBookmark(news.id)}
-                      className={`flex items-center gap-1 hover:text-cyber-cyan transition-colors ${
-                        isBookmarked ? 'text-cyber-cyan font-bold' : ''
-                      }`}
-                      title="Bookmark article"
-                    >
-                      <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-cyber-cyan/25 text-cyber-cyan' : ''}`} />
-                      <span>{isBookmarked ? 'Saved' : 'Save'}</span>
-                    </button>
+                {/* Likes/Hide/Bookmark */}
+                <div className="flex items-center gap-4">
+                  <button 
+                    onClick={() => handleLike(activeArticle.id)}
+                    className={`flex items-center gap-1.5 text-xs font-bold transition-all hover:text-green-400 cursor-pointer ${
+                      likedIds.includes(activeArticle.id) ? 'text-green-400' : 'text-slate-400'
+                    }`}
+                  >
+                    <ThumbsUp className="w-4 h-4" />
+                    <span>Like</span>
+                  </button>
 
-                    {/* External source Link */}
-                    <a 
-                      href={news.url} 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="flex items-center gap-1 hover:text-white transition-colors"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                      <span>Visit</span>
-                    </a>
-                  </div>
+                  <button 
+                    onClick={() => handleDislike(activeArticle.id)}
+                    className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-red-400 transition-all cursor-pointer"
+                  >
+                    <ThumbsDown className="w-4 h-4" />
+                    <span>Hide</span>
+                  </button>
+
+                  <button 
+                    onClick={() => handleBookmark(activeArticle.id)}
+                    className={`flex items-center gap-1.5 text-xs font-bold transition-all hover:text-cyber-cyan cursor-pointer ${
+                      bookmarkedIds.includes(activeArticle.id) ? 'text-cyber-cyan' : 'text-slate-400'
+                    }`}
+                  >
+                    <Bookmark className="w-4 h-4" />
+                    <span>Save</span>
+                  </button>
                 </div>
 
               </div>
-            );
-          })
-        )}
+
+            </div>
+          ) : (
+            <div className="glass-panel p-12 rounded-2xl text-center border border-white/5">
+              <p className="text-slate-400 text-xs">No article selected.</p>
+            </div>
+          )}
+        </div>
+
       </div>
 
     </div>
