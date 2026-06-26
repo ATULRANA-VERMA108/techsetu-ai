@@ -18,6 +18,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { DSA_TOPICS } from './DsaCodingHubPage.jsx';
 
 const QUESTIONS = {
   "two-sum": {
@@ -133,7 +134,51 @@ export default function CodeEditorPage() {
 
   // Question metadata
   const questionId = searchParams.get('question') || 'two-sum';
-  const qMeta = QUESTIONS[questionId] || QUESTIONS["two-sum"];
+  
+  const formatTitle = (id) => {
+    return id
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  const getDynamicMeta = (id) => {
+    if (QUESTIONS[id]) return QUESTIONS[id];
+    
+    let matchedProblem = null;
+    let matchedCategory = "General Algorithms";
+    
+    for (const phase of DSA_TOPICS) {
+      const match = phase.problems.find(p => p.path === id || p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === id);
+      if (match) {
+        matchedProblem = match;
+        matchedCategory = phase.title;
+        break;
+      }
+    }
+    
+    if (matchedProblem) {
+      return {
+        title: matchedProblem.name,
+        difficulty: matchedProblem.difficulty,
+        category: matchedCategory,
+        description: `Optimize your solution for "${matchedProblem.name}". Complete the starter code in the editor pane, run virtual test cases to verify logic correctness, or select 'Learn Mode' to view AI recommendations and official briefings.`,
+        inputFormat: "Virtual automated problem input tests.",
+        outputFormat: "Optimal return parameters.",
+        explanation: `Requires optimal solution with linear/logarithmic complexities mapping to the patterns of ${matchedCategory}.`,
+        youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(matchedProblem.name + ' SDE solution')}`,
+        blog: matchedProblem.conceptUrl || `https://www.geeksforgeeks.org/search/${encodeURIComponent(matchedProblem.name)}`,
+        cpp: `// Starter template for ${matchedProblem.name}\n#include <bits/stdc++.h>\nusing namespace std;\n\n// Write your solution here\n`,
+        java: `// Starter template for ${matchedProblem.name}\nimport java.util.*;\n\n// Write your solution here\n`,
+        python: `# Starter template for ${matchedProblem.name}\n# Write your solution here\n`,
+        javascript: `// Starter template for ${matchedProblem.name}\n// Write your solution here\n`
+      };
+    }
+    
+    return QUESTIONS["two-sum"];
+  };
+
+  const qMeta = getDynamicMeta(questionId);
 
   // Workspace configuration
   const [language, setLanguage] = useState('cpp');

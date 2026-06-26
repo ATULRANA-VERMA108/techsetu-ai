@@ -165,7 +165,7 @@ const MENTORS_DIRECTORY = [
   }
 ];
 
-const DSA_TOPICS = [
+export const DSA_TOPICS = [
   {
     id: "phase-1",
     title: "Phase 1: Arrays",
