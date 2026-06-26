@@ -29,6 +29,8 @@ public class User {
 
     private String targetRole;
     private Integer bridgeScore = 0;
+    private Integer solvedCount = 0;
+    private Integer streak = 0;
     
     // comma separated roles (e.g. ROLE_USER, ROLE_ADMIN)
     private String roles = "ROLE_USER";

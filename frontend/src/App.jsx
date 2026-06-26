@@ -14,6 +14,8 @@ import ResumeOptimizerPage from './pages/ResumeOptimizerPage.jsx';
 import ProjectHubPage from './pages/ProjectHubPage.jsx';
 import AiPlaygroundPage from './pages/AiPlaygroundPage.jsx';
 import DsaCodingHubPage from './pages/DsaCodingHubPage.jsx';
+import LeaderboardPage from './pages/LeaderboardPage.jsx';
+import CodeEditorPage from './pages/CodeEditorPage.jsx';
 
 // Common Layout components
 import Sidebar from './components/common/Sidebar.jsx';
@@ -57,6 +59,18 @@ export default function App() {
         <Route path="/dsa" element={
           <ProtectedRoute>
             <AppLayout><DsaCodingHubPage /></AppLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/leaderboard" element={
+          <ProtectedRoute>
+            <AppLayout><LeaderboardPage /></AppLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/editor" element={
+          <ProtectedRoute>
+            <AppLayout><CodeEditorPage /></AppLayout>
           </ProtectedRoute>
         } />
 

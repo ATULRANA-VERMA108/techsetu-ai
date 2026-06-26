@@ -119,6 +119,99 @@ export const AuthAPI = {
       if (user) return user;
       throw new Error("Unauthorized");
     }
+  },
+
+  socialLogin: async (provider, email, username) => {
+    try {
+      const res = await api.post('/auth/social-login', { provider, email, username });
+      return res.data;
+    } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Social login failed.");
+      }
+      await SIMULATE_DELAY();
+      // Mock OAuth login fallback
+      const token = "mock-social-jwt-" + Date.now();
+      const userObj = {
+        id: Date.now(),
+        username: username.toLowerCase().replace(/\s+/g, ""),
+        email: email,
+        targetRole: null,
+        bridgeScore: 0,
+        solvedCount: 0,
+        streak: 0,
+        roles: ["ROLE_USER"]
+      };
+      // Save simulated users in mock DB
+      const mockUsers = getLocalData('mock_users', {});
+      mockUsers[userObj.username] = { ...userObj, password: "oauth_simulated" };
+      setLocalData('mock_users', mockUsers);
+      return { token, user: userObj };
+    }
+  },
+
+  forgotPassword: async (email) => {
+    try {
+      const res = await api.post('/auth/forgot-password', { email });
+      return res.data;
+    } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Failed to trigger password recovery.");
+      }
+      await SIMULATE_DELAY();
+      const mockUsers = getLocalData('mock_users', {});
+      const userExists = Object.values(mockUsers).some(u => u.email === email);
+      if (!userExists && email !== "atulrana104@gmail.com") {
+        throw new Error("Email address not registered.");
+      }
+      return { message: "OTP sent successfully. Sandbox dev OTP is: 123456" };
+    }
+  },
+
+  resetPassword: async (email, otp, newPassword) => {
+    try {
+      const res = await api.post('/auth/reset-password', { email, otp, newPassword });
+      return res.data;
+    } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Password reset failed.");
+      }
+      await SIMULATE_DELAY();
+      if (otp !== "123456") {
+        throw new Error("Invalid or expired OTP verification token.");
+      }
+      const mockUsers = getLocalData('mock_users', {});
+      Object.keys(mockUsers).forEach(username => {
+        if (mockUsers[username].email === email) {
+          mockUsers[username].password = newPassword;
+        }
+      });
+      setLocalData('mock_users', mockUsers);
+      return { message: "Password has been reset successfully!" };
+    }
+  },
+
+  getLeaderboard: async () => {
+    try {
+      const res = await api.get('/auth/leaderboard');
+      return res.data;
+    } catch (e) {
+      await SIMULATE_DELAY();
+      const mockUsers = getLocalData('mock_users', {});
+      const list = Object.values(mockUsers).map(u => ({
+        username: u.username,
+        solvedCount: u.solvedCount || 0,
+        streak: u.streak || 0,
+        bridgeScore: u.bridgeScore || 0,
+        targetRole: u.targetRole || null
+      }));
+      // Add standard leaderboard developers for rich styling
+      list.push({ username: "Aditi Sen", solvedCount: 42, streak: 12, bridgeScore: 62, targetRole: "React Developer" });
+      list.push({ username: "Rohit Verma", solvedCount: 89, streak: 35, bridgeScore: 84, targetRole: "Kubernetes Administrator" });
+      list.push({ username: "Siddharth Jain", solvedCount: 142, streak: 67, bridgeScore: 92, targetRole: "System Architect" });
+      
+      return list.sort((a, b) => b.solvedCount - a.solvedCount || b.bridgeScore - a.bridgeScore);
+    }
   }
 };
 
@@ -662,6 +755,38 @@ export const AiAPI = {
       return res.data;
     } catch (e) {
       return await RoadmapAPI.generate(targetRole, skillsList);
+    }
+  }
+};
+
+export const QuestionAPI = {
+  submit: async (questionId, language, code) => {
+    try {
+      const res = await api.post('/questions/submit', { questionId, language, code });
+      return typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+    } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Execution failed.");
+      }
+      await SIMULATE_DELAY();
+      // Mock result evaluator fallback
+      const mockRes = {
+        passed: true,
+        score: 100,
+        stdout: "[Success] Compilation finished.\nTest Case 1: Passed\nTest Case 2: Passed\nTime: 12ms",
+        details: "All 5 standard test cases passed successfully."
+      };
+      return mockRes;
+    }
+  },
+
+  explain: async (questionId) => {
+    try {
+      const res = await api.post('/questions/explain', { questionId });
+      return res.data;
+    } catch (e) {
+      await SIMULATE_DELAY();
+      return { explanation: "Concept explanation simulation: This problem focuses on optimizing space/time bounds by utilizing maps or two pointers. Ideal time complexity is O(N) using a HashMap." };
     }
   }
 };

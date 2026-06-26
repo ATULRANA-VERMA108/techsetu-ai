@@ -13,6 +13,15 @@ export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  // Social Login & Forgot Password States
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [resetOtp, setResetOtp] = useState('');
+  const [resetNewPassword, setResetNewPassword] = useState('');
+  const [resetStep, setResetStep] = useState(1); // 1: request OTP, 2: verify & reset
+  const [forgotStatus, setForgotStatus] = useState(null);
+  const [forgotError, setForgotError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) return;
@@ -24,6 +33,57 @@ export default function LoginPage() {
       navigate('/dashboard');
     } catch (err) {
       dispatch(loginFailure(err.message || 'Login failed.'));
+    }
+  };
+
+  const handleSocialLogin = async (provider) => {
+    dispatch(loginStart());
+    try {
+      // Generate standard email & username for simulated social account
+      const suffix = Math.floor(100 + Math.random() * 900);
+      const email = `${provider.toLowerCase()}_user_${suffix}@techsetu.com`;
+      const name = `${provider} User ${suffix}`;
+      
+      const data = await AuthAPI.socialLogin(provider, email, name);
+      dispatch(loginSuccess({ token: data.token, user: data.user }));
+      navigate('/dashboard');
+    } catch (err) {
+      dispatch(loginFailure(err.message || 'Social login failed.'));
+    }
+  };
+
+  const handleRequestOtp = async (e) => {
+    e.preventDefault();
+    setForgotError(null);
+    setForgotStatus("Sending verification OTP...");
+    try {
+      const res = await AuthAPI.forgotPassword(forgotEmail);
+      setForgotStatus(res.message || "Verification code sent to your email.");
+      setResetStep(2);
+    } catch (err) {
+      setForgotStatus(null);
+      setForgotError(err.message || "Failed to trigger recovery.");
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setForgotError(null);
+    setForgotStatus("Verifying code & updating password...");
+    try {
+      const res = await AuthAPI.resetPassword(forgotEmail, resetOtp, resetNewPassword);
+      setForgotStatus(res.message || "Password updated successfully!");
+      setTimeout(() => {
+        setShowForgotPassword(false);
+        setForgotStatus(null);
+        setForgotEmail('');
+        setResetOtp('');
+        setResetNewPassword('');
+        setResetStep(1);
+      }, 2000);
+    } catch (err) {
+      setForgotStatus(null);
+      setForgotError(err.message || "Reset failed.");
     }
   };
 
@@ -104,7 +164,16 @@ export default function LoginPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-400">Password</label>
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-semibold text-slate-400">Password</label>
+              <button 
+                type="button"
+                onClick={() => setShowForgotPassword(true)}
+                className="text-[10px] text-cyber-cyan hover:underline font-semibold"
+              >
+                Forgot Password?
+              </button>
+            </div>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
                 <Key className="w-4 h-4" />
@@ -131,6 +200,32 @@ export default function LoginPage() {
 
         </form>
 
+        {/* Social Authentication Options */}
+        <div className="flex items-center my-5">
+          <div className="flex-1 border-t border-white/10"></div>
+          <span className="px-3 text-slate-500 text-[9px] uppercase font-bold tracking-wider">Or Continue With</span>
+          <div className="flex-1 border-t border-white/10"></div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => handleSocialLogin('Google')}
+            type="button"
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-white hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <span className="text-red-400 font-extrabold text-xs">G</span>
+            <span>Google</span>
+          </button>
+          <button
+            onClick={() => handleSocialLogin('GitHub')}
+            type="button"
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-white hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <span className="text-slate-300 font-extrabold text-xs">Git</span>
+            <span>GitHub</span>
+          </button>
+        </div>
+
         <div className="mt-6 text-center text-xs text-slate-400">
           <span>Don't have an account? </span>
           <Link to="/signup" className="text-cyber-cyan hover:underline font-semibold">
@@ -139,6 +234,101 @@ export default function LoginPage() {
         </div>
 
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotPassword && (
+        <div className="fixed inset-0 bg-[#03001e]/60 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
+          <div className="max-w-md w-full glass-panel border-l-4 border-cyber-cyan rounded-2xl p-8 relative flex flex-col shadow-glow-purple">
+            
+            <button 
+              onClick={() => {
+                setShowForgotPassword(false);
+                setResetStep(1);
+                setForgotError(null);
+                setForgotStatus(null);
+              }}
+              type="button"
+              className="absolute top-3 right-3 text-slate-400 hover:text-white hover:bg-white/5 p-1.5 rounded-lg transition-all"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <h3 className="font-display font-bold text-lg text-white mb-1">
+              Reset Password
+            </h3>
+            <p className="text-slate-400 text-xs mb-6">
+              Recover your account credentials securely
+            </p>
+
+            {forgotError && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg p-3 text-xs mb-4 text-center font-medium animate-pulse">
+                {forgotError}
+              </div>
+            )}
+
+            {forgotStatus && (
+              <div className="bg-cyber-cyan/10 border border-cyber-cyan/20 text-cyber-cyan rounded-lg p-3 text-xs mb-4 text-center font-medium">
+                {forgotStatus}
+              </div>
+            )}
+
+            {resetStep === 1 ? (
+              <form onSubmit={handleRequestOtp} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-slate-400">Email Address</label>
+                  <input
+                    type="email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    placeholder="enter_user@gmail.com"
+                    className="w-full px-4 py-3 glass-input text-sm"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-pink font-bold text-xs text-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow-purple"
+                >
+                  Send OTP Verification
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-slate-400">Verification OTP</label>
+                  <input
+                    type="text"
+                    value={resetOtp}
+                    onChange={(e) => setResetOtp(e.target.value)}
+                    placeholder="Enter 6-digit OTP (e.g. 123456)"
+                    className="w-full px-4 py-3 glass-input text-sm text-center tracking-widest font-bold"
+                    required
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-slate-400">New Password</label>
+                  <input
+                    type="password"
+                    value={resetNewPassword}
+                    onChange={(e) => setResetNewPassword(e.target.value)}
+                    placeholder="Enter new password (min 6 characters)"
+                    className="w-full px-4 py-3 glass-input text-sm"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue font-bold text-xs text-white hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  Verify Code & Reset Password
+                </button>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

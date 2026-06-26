@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginStart, loginSuccess, loginFailure } from '../redux/slices/authSlice';
 import { AuthAPI } from '../services/api';
 import { Waypoints, User, Mail, Key, ArrowRight } from 'lucide-react';
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +33,21 @@ export default function SignupPage() {
       setError(err.message || 'Registration failed.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSocialLogin = async (provider) => {
+    dispatch(loginStart());
+    try {
+      const suffix = Math.floor(100 + Math.random() * 900);
+      const email = `${provider.toLowerCase()}_user_${suffix}@techsetu.com`;
+      const name = `${provider} User ${suffix}`;
+      
+      const data = await AuthAPI.socialLogin(provider, email, name);
+      dispatch(loginSuccess({ token: data.token, user: data.user }));
+      navigate('/dashboard');
+    } catch (err) {
+      dispatch(loginFailure(err.message || 'Social login failed.'));
     }
   };
 
@@ -128,6 +147,32 @@ export default function SignupPage() {
           </button>
 
         </form>
+
+        {/* Social Registration Options */}
+        <div className="flex items-center my-5">
+          <div className="flex-1 border-t border-white/10"></div>
+          <span className="px-3 text-slate-500 text-[9px] uppercase font-bold tracking-wider">Or Register With</span>
+          <div className="flex-1 border-t border-white/10"></div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => handleSocialLogin('Google')}
+            type="button"
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-white hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <span className="text-red-400 font-extrabold text-xs">G</span>
+            <span>Google</span>
+          </button>
+          <button
+            onClick={() => handleSocialLogin('GitHub')}
+            type="button"
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-white hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <span className="text-slate-300 font-extrabold text-xs">Git</span>
+            <span>GitHub</span>
+          </button>
+        </div>
 
         <div className="mt-6 text-center text-xs text-slate-400">
           <span>Already have an account? </span>

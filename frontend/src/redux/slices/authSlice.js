@@ -53,9 +53,20 @@ const authSlice = createSlice({
     },
     clearError(state) {
       state.error = null;
+    },
+    incrementSolvedCount(state) {
+      if (state.user) {
+        state.user.solvedCount = (state.user.solvedCount || 0) + 1;
+        if (state.user.streak === 0 || !state.user.streak) {
+          state.user.streak = 1;
+        } else {
+          state.user.streak += 1;
+        }
+        localStorage.setItem('user', JSON.stringify(state.user));
+      }
     }
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, updateProfile, clearError } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout, updateProfile, clearError, incrementSolvedCount } = authSlice.actions;
 export default authSlice.reducer;

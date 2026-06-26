@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/common/Header.jsx';
 import { 
   Trophy, 
@@ -11,7 +12,10 @@ import {
   BookOpen, 
   Terminal,
   Search,
-  Sparkles
+  Sparkles,
+  Youtube,
+  Linkedin,
+  Compass
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -29,56 +33,79 @@ const PLATFORMS = [
   { name: "HackerRank", url: "https://hackerrank.com", desc: "Great for language proficiency tests and foundational practice", color: "from-[#00EA64]/20 to-[#00EA64]/5", textColor: "text-[#00EA64]" }
 ];
 
+const LECTURES = [
+  { title: "Striver's A2Z DSA Playlist", channel: "take U forward", desc: "Best comprehensive multi-language DSA course from scratch", url: "https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", tags: ["C++", "Java"] },
+  { title: "C++ DSA Bootcamp", channel: "Love Babbar", desc: "Supreme batch C++ and algorithms playlist", url: "https://youtube.com/playlist?list=PLDzeHZWIZsTrytAR3ltFITkK5VMh5ODNh", tags: ["C++"] },
+  { title: "Java DSA & Interview Prep", channel: "Kunal Kushwaha", desc: "Detailed explanations of recursion, trees, and system parameters", url: "https://youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsPZu1wMGeA7xGrk9g", tags: ["Java"] },
+  { title: "Python Algorithm Walks", channel: "NeetCode", desc: "Visual whiteboarding and optimal Python code details", url: "https://youtube.com/@NeetCode", tags: ["Python"] }
+];
+
+const INFLUENCERS = [
+  { name: "Raj Vikramaditya (Striver)", role: "Software Engineer @ Google", desc: "Daily DSA problems, sheets, and placement tips", url: "https://linkedin.com/in/raj-vikramaditya" },
+  { name: "Arsh Goyal", role: "Senior Engineer @ Samsung", desc: "#6Companies30Days challenge guides and interview sheets", url: "https://linkedin.com/in/arshgoyal" },
+  { name: "Love Babbar", role: "Ex-Amazon SDE", desc: "Software placements, resume builder sessions, and tech roadmaps", url: "https://linkedin.com/in/love-babbar-38ab85187" }
+];
+
 const DSA_TOPICS = [
   {
     id: "arrays",
     title: "Arrays & Hashing",
     problems: [
-      { name: "Two Sum", difficulty: "Easy", url: "https://leetcode.com/problems/two-sum/", platform: "LeetCode" },
-      { name: "Contains Duplicate", difficulty: "Easy", url: "https://leetcode.com/problems/contains-duplicate/", platform: "LeetCode" },
-      { name: "Valid Anagram", difficulty: "Easy", url: "https://leetcode.com/problems/valid-anagram/", platform: "LeetCode" },
-      { name: "Group Anagrams", difficulty: "Medium", url: "https://leetcode.com/problems/group-anagrams/", platform: "LeetCode" },
-      { name: "Top K Frequent Elements", difficulty: "Medium", url: "https://leetcode.com/problems/top-k-frequent-elements/", platform: "LeetCode" }
+      { name: "Two Sum", difficulty: "Easy", path: "two-sum", platform: "LeetCode" },
+      { name: "Contains Duplicate", difficulty: "Easy", path: "contains-duplicate", platform: "LeetCode" },
+      { name: "Valid Anagram", difficulty: "Easy", path: "valid-anagram", platform: "LeetCode" },
+      { name: "Group Anagrams", difficulty: "Medium", path: "group-anagrams", platform: "LeetCode" },
+      { name: "Top K Frequent Elements", difficulty: "Medium", path: "top-k-frequent-elements", platform: "LeetCode" }
     ]
   },
   {
     id: "two-pointers",
     title: "Two Pointers & Sliding Window",
     problems: [
-      { name: "Valid Palindrome", difficulty: "Easy", url: "https://leetcode.com/problems/valid-palindrome/", platform: "LeetCode" },
-      { name: "Container With Most Water", difficulty: "Medium", url: "https://leetcode.com/problems/container-with-most-water/", platform: "LeetCode" },
-      { name: "Best Time to Buy and Sell Stock", difficulty: "Easy", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", platform: "LeetCode" },
-      { name: "Longest Substring Without Repeating Characters", difficulty: "Medium", url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", platform: "LeetCode" }
+      { name: "Valid Palindrome", difficulty: "Easy", path: "valid-palindrome", platform: "LeetCode" },
+      { name: "Container With Most Water", difficulty: "Medium", path: "container-with-most-water", platform: "LeetCode" },
+      { name: "Best Time to Buy and Sell Stock", difficulty: "Easy", path: "best-time-to-buy-and-sell-stock", platform: "LeetCode" },
+      { name: "Longest Substring Without Repeating Characters", difficulty: "Medium", path: "longest-substring-without-repeating-characters", platform: "LeetCode" }
     ]
   },
   {
     id: "linked-lists",
     title: "Linked Lists",
     problems: [
-      { name: "Reverse Linked List", difficulty: "Easy", url: "https://leetcode.com/problems/reverse-linked-list/", platform: "LeetCode" },
-      { name: "Merge Two Sorted Lists", difficulty: "Easy", url: "https://leetcode.com/problems/merge-two-sorted-lists/", platform: "LeetCode" },
-      { name: "Linked List Cycle", difficulty: "Easy", url: "https://leetcode.com/problems/linked-list-cycle/", platform: "LeetCode" },
-      { name: "Remove Nth Node From End of List", difficulty: "Medium", url: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", platform: "LeetCode" }
+      { name: "Reverse Linked List", difficulty: "Easy", path: "reverse-linked-list", platform: "LeetCode" },
+      { name: "Merge Two Sorted Lists", difficulty: "Easy", path: "merge-two-sorted-lists", platform: "LeetCode" },
+      { name: "Linked List Cycle", difficulty: "Easy", path: "linked-list-cycle", platform: "LeetCode" },
+      { name: "Remove Nth Node From End of List", difficulty: "Medium", path: "remove-nth-node-from-end-of-list", platform: "LeetCode" }
     ]
   },
   {
     id: "trees-graphs",
     title: "Trees & Graphs",
     problems: [
-      { name: "Invert Binary Tree", difficulty: "Easy", url: "https://leetcode.com/problems/invert-binary-tree/", platform: "LeetCode" },
-      { name: "Maximum Depth of Binary Tree", difficulty: "Easy", url: "https://leetcode.com/problems/maximum-depth-of-binary-tree/", platform: "LeetCode" },
-      { name: "Number of Islands", difficulty: "Medium", url: "https://leetcode.com/problems/number-of-islands/", platform: "LeetCode" },
-      { name: "Clone Graph", difficulty: "Medium", url: "https://leetcode.com/problems/clone-graph/", platform: "LeetCode" }
+      { name: "Invert Binary Tree", difficulty: "Easy", path: "invert-binary-tree", platform: "LeetCode" },
+      { name: "Maximum Depth of Binary Tree", difficulty: "Easy", path: "maximum-depth-of-binary-tree", platform: "LeetCode" },
+      { name: "Number of Islands", difficulty: "Medium", path: "number-of-islands", platform: "LeetCode" },
+      { name: "Clone Graph", difficulty: "Medium", path: "clone-graph", platform: "LeetCode" }
     ]
   },
   {
     id: "dp-greedy",
     title: "Dynamic Programming & Greedy",
     problems: [
-      { name: "Climbing Stairs", difficulty: "Easy", url: "https://leetcode.com/problems/climbing-stairs/", platform: "LeetCode" },
-      { name: "Coin Change", difficulty: "Medium", url: "https://leetcode.com/problems/coin-change/", platform: "LeetCode" },
-      { name: "Longest Common Subsequence", difficulty: "Medium", url: "https://leetcode.com/problems/longest-common-subsequence/", platform: "LeetCode" },
-      { name: "Jump Game", difficulty: "Medium", url: "https://leetcode.com/problems/jump-game/", platform: "LeetCode" }
+      { name: "Climbing Stairs", difficulty: "Easy", path: "climbing-stairs", platform: "LeetCode" },
+      { name: "Coin Change", difficulty: "Medium", path: "coin-change", platform: "LeetCode" },
+      { name: "Longest Common Subsequence", difficulty: "Medium", path: "longest-common-subsequence", platform: "LeetCode" },
+      { name: "Jump Game", difficulty: "Medium", path: "jump-game", platform: "LeetCode" }
+    ]
+  },
+  {
+    id: "system-design",
+    title: "System Design Patterns",
+    problems: [
+      { name: "Design a Rate Limiter", difficulty: "Medium", path: "design-rate-limiter", platform: "SystemDesign" },
+      { name: "Design Twitter / X Feed", difficulty: "Hard", path: "design-twitter", platform: "SystemDesign" },
+      { name: "Design a URL Shortener", difficulty: "Easy", path: "design-url-shortener", platform: "SystemDesign" },
+      { name: "Design a Chat System", difficulty: "Hard", path: "design-chat-system", platform: "SystemDesign" }
     ]
   }
 ];
@@ -300,7 +327,7 @@ export default function DsaCodingHubPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Left Column: Problem Tracker (2 spans) */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-6">
             
             <div className="glass-panel p-6 rounded-2xl">
               
@@ -361,7 +388,7 @@ export default function DsaCodingHubPage() {
                               {prob.platform}
                             </span>
                             <span className={`text-[8px] font-semibold uppercase tracking-wider ${
-                              prob.difficulty === 'Easy' ? 'text-emerald-400' : 'text-amber-400'
+                              prob.difficulty === 'Easy' ? 'text-emerald-400' : prob.difficulty === 'Medium' ? 'text-amber-400' : 'text-red-400'
                             }`}>
                               {prob.difficulty}
                             </span>
@@ -369,20 +396,58 @@ export default function DsaCodingHubPage() {
                         </div>
                       </div>
 
-                      <a 
-                        href={prob.url} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="flex items-center gap-1 text-[10px] text-cyber-cyan hover:underline font-semibold pr-1"
-                      >
-                        <span>Practice</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+                      <div className="flex items-center gap-3">
+                        <Link 
+                          to={`/editor?question=${prob.path}`}
+                          className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-cyber-purple/20 to-cyber-pink/20 hover:from-cyber-purple/35 hover:to-cyber-pink/35 border border-cyber-purple/30 rounded-lg text-[9px] text-white font-bold transition-all"
+                        >
+                          <Code2 className="w-3 h-3 text-cyber-pink" />
+                          <span>Solve in Editor</span>
+                        </Link>
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
+            </div>
+
+            {/* Placements & Video Coding Resources */}
+            <div className="glass-panel p-6 rounded-2xl">
+              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
+                <Youtube className="w-5 h-5 text-red-500" />
+                <h3 className="font-display font-bold text-sm text-white">Curated Lectures & Placements preparation</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {LECTURES.map((lec) => (
+                  <a
+                    key={lec.title}
+                    href={lec.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex flex-col p-4 bg-white/3 border border-white/5 hover:border-red-500/30 rounded-xl transition-all group text-left"
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">
+                        {lec.title}
+                      </span>
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                    </div>
+                    <span className="text-[9px] text-red-400 font-semibold mb-1">Channel: {lec.channel}</span>
+                    <p className="text-[10px] text-slate-400 leading-relaxed mb-3">
+                      {lec.desc}
+                    </p>
+                    <div className="flex gap-1.5 mt-auto">
+                      {lec.tags.map(t => (
+                        <span key={t} className="text-[8px] bg-red-500/10 border border-red-500/20 text-red-400 px-2 py-0.5 rounded font-bold">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* Interactive Coding Cheat Sheet */}
@@ -491,6 +556,37 @@ export default function DsaCodingHubPage() {
               </form>
             </div>
 
+            {/* LinkedIn Tech Influencers */}
+            <div className="glass-panel p-6 rounded-2xl">
+              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
+                <Linkedin className="w-4 h-4 text-cyber-blue" />
+                <h3 className="font-display font-bold text-white text-xs">LinkedIn Placements Guides</h3>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {INFLUENCERS.map((inf) => (
+                  <a
+                    key={inf.name}
+                    href={inf.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-blue/40 rounded-xl transition-all group text-left"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-white group-hover:text-cyber-blue transition-colors">
+                        {inf.name}
+                      </span>
+                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-white transition-colors" />
+                    </div>
+                    <span className="text-[9px] text-cyber-blue font-medium mt-0.5">{inf.role}</span>
+                    <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+                      {inf.desc}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+
             {/* Quick Access Sheets */}
             <div className="glass-panel p-6 rounded-2xl">
               <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
@@ -505,7 +601,7 @@ export default function DsaCodingHubPage() {
                     href={sheet.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-pink/40 rounded-xl transition-all group"
+                    className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-pink/40 rounded-xl transition-all group text-left"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-white group-hover:text-cyber-pink transition-colors">
@@ -535,7 +631,7 @@ export default function DsaCodingHubPage() {
                     href={plat.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex items-center justify-between p-3 rounded-xl bg-gradient-to-r border border-white/5 hover:border-white/10 transition-all ${plat.color}`}
+                    className={`flex items-center justify-between p-3 rounded-xl bg-gradient-to-r border border-white/5 hover:border-white/10 transition-all ${plat.color} text-left`}
                   >
                     <div>
                       <span className={`text-xs font-bold ${plat.textColor}`}>{plat.name}</span>
