@@ -3,6 +3,13 @@
   --cyber-pink: #e100ff;
   --color-glow-purple: rgba(127, 0, 255, 0.4);
   --color-glow-purple-light: rgba(127, 0, 255, 0.15);
+  
+  /* Theme variables (Dark Mode default) */
+  --cyber-bg: radial-gradient(circle at 50% 50%, #0c002c 0%, #03001e 100%);
+  --cyber-panel-bg: rgba(10, 5, 30, 0.55);
+  --cyber-text: #f8fafc;
+  --cyber-text-muted: #94a3b8;
+  --cyber-border: rgba(255, 255, 255, 0.06);
 }
 
 @tailwind base;
@@ -11,8 +18,10 @@
 
 @layer base {
   body {
-    background: radial-gradient(circle at 50% 50%, #0c002c 0%, #03001e 100%);
+    background: var(--cyber-bg) !important;
+    color: var(--cyber-text) !important;
     min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -34,11 +43,13 @@
 
 /* Glassmorphism Panel styles */
 .glass-panel {
-  background: rgba(10, 5, 30, 0.55);
+  background: var(--cyber-panel-bg) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid var(--cyber-border) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+  color: var(--cyber-text);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .glass-panel-hover {

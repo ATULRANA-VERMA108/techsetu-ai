@@ -18,37 +18,10 @@ import {
   Newspaper
 } from 'lucide-react';
 
-const themes = [
-  { name: 'Purple', primary: '#7f00ff', secondary: '#e100ff', glow: 'rgba(127, 0, 255, 0.4)', glowLight: 'rgba(127, 0, 255, 0.15)', bg: 'bg-[#7f00ff]' },
-  { name: 'Pink', primary: '#ff007f', secondary: '#7f00ff', glow: 'rgba(255, 0, 127, 0.4)', glowLight: 'rgba(255, 0, 127, 0.15)', bg: 'bg-[#ff007f]' },
-  { name: 'Cyan', primary: '#00f2fe', secondary: '#4facfe', glow: 'rgba(0, 242, 254, 0.4)', glowLight: 'rgba(0, 242, 254, 0.15)', bg: 'bg-[#00f2fe]' },
-  { name: 'Green', primary: '#10b981', secondary: '#059669', glow: 'rgba(16, 185, 129, 0.4)', glowLight: 'rgba(16, 185, 129, 0.15)', bg: 'bg-[#10b981]' },
-  { name: 'Amber', primary: '#f59e0b', secondary: '#d97706', glow: 'rgba(245, 158, 11, 0.4)', glowLight: 'rgba(245, 158, 11, 0.15)', bg: 'bg-[#f59e0b]' },
-  { name: 'Red', primary: '#ef4444', secondary: '#be123c', glow: 'rgba(239, 68, 68, 0.4)', glowLight: 'rgba(239, 68, 68, 0.15)', bg: 'bg-[#ef4444]' },
-  { name: 'Blue', primary: '#3b82f6', secondary: '#1d4ed8', glow: 'rgba(59, 130, 246, 0.4)', glowLight: 'rgba(59, 130, 246, 0.15)', bg: 'bg-[#3b82f6]' },
-];
-
-export const applyTheme = (theme) => {
-  document.documentElement.style.setProperty('--cyber-purple', theme.primary);
-  document.documentElement.style.setProperty('--cyber-pink', theme.secondary);
-  document.documentElement.style.setProperty('--color-glow-purple', theme.glow);
-  document.documentElement.style.setProperty('--color-glow-purple-light', theme.glowLight);
-  localStorage.setItem('selected-theme', theme.name);
-};
-
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
-  const [toastMessage, setToastMessage] = React.useState('');
-
-  React.useEffect(() => {
-    const saved = localStorage.getItem('selected-theme');
-    if (saved) {
-      const match = themes.find(t => t.name === saved);
-      if (match) applyTheme(match);
-    }
-  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -111,33 +84,8 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* User Footer block & Theme swapper */}
+      {/* User Footer block */}
       <div className="flex flex-col gap-3 border-t border-white/5 pt-4">
-        {/* Toast Alert Inside Sidebar */}
-        {toastMessage && (
-          <div className="text-[10px] text-center bg-cyber-purple/20 text-white border border-cyber-purple/30 rounded py-1 px-2 animate-pulse">
-            {toastMessage}
-          </div>
-        )}
-
-        {/* Color Theme Selector */}
-        <div className="bg-white/5 rounded-xl p-2.5 border border-white/5 flex flex-col gap-1.5">
-          <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Accent Palette</p>
-          <div className="flex items-center gap-1 justify-between">
-            {themes.map(t => (
-              <button
-                key={t.name}
-                onClick={() => {
-                  applyTheme(t);
-                  setToastMessage(`Active theme: ${t.name}`);
-                  setTimeout(() => setToastMessage(''), 2000);
-                }}
-                className={`w-4 h-4 rounded-full ${t.bg} border border-white/10 hover:scale-125 transition-all`}
-                title={t.name}
-              />
-            ))}
-          </div>
-        </div>
 
         {user && (
           <div className="flex items-center gap-3 px-2">
