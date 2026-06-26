@@ -18,7 +18,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { DSA_TOPICS } from './DsaCodingHubPage.jsx';
+import { DSA_TOPICS } from '../data/dsaData.js';
 
 const QUESTIONS = {
   "two-sum": {
@@ -200,6 +200,7 @@ export default function CodeEditorPage() {
       setCode(qMeta[language] || STARTER_FALLBACKS[language] || '');
       setOutput(null);
       setPassed(null);
+      setAiExplanation(null); // Reset explanation when question changes
     }
   }, [questionId, language]);
 
@@ -208,7 +209,7 @@ export default function CodeEditorPage() {
     if (mode === 'learn' && !aiExplanation) {
       fetchConcept();
     }
-  }, [mode, questionId]);
+  }, [mode, questionId, aiExplanation]);
 
   const fetchConcept = async () => {
     setExplaining(true);
