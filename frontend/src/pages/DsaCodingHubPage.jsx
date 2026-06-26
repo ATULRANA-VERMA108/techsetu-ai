@@ -15,107 +15,373 @@ import {
   Sparkles,
   Youtube,
   Linkedin,
-  Compass
+  Compass,
+  ArrowRight,
+  BookOpenCheck
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const DSA_SHEETS = [
-  { name: "Striver's SDE Sheet", description: "Top 180+ interview questions curated for FAANG", url: "https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/" },
-  { name: "NeetCode 150", description: "Structured sequence from easy to hard topics", url: "https://neetcode.io/practice" },
-  { name: "Love Babbar 450", description: "Comprehensive coverage of basic to advanced DSA", url: "https://www.geeksforgeeks.org/luthra-450-dsa-sheet-love-babbar/" }
+  { name: "Striver's A2Z Sheet", description: "Comprehensive 450+ path from basics to advanced patterns", url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2" },
+  { name: "NeetCode 150", description: "Structured sequence for technical interviews", url: "https://neetcode.io/practice" },
+  { name: "Love Babbar 450", description: "Classic Indian placement preparation sheet", url: "https://www.geeksforgeeks.org/luthra-450-dsa-sheet-love-babbar/" }
 ];
 
 const PLATFORMS = [
-  { name: "LeetCode", url: "https://leetcode.com", desc: "Best for standard interview questions and study plans", color: "from-[#FFA116]/20 to-[#FFA116]/5", textColor: "text-[#FFA116]" },
-  { name: "Codeforces", url: "https://codeforces.com", desc: "Excellent for speed, mathematical algorithms and contests", color: "from-[#3182CE]/20 to-[#3182CE]/5", textColor: "text-[#3182CE]" },
-  { name: "CodeChef", url: "https://codechef.com", desc: "Monthly division-based contests and topic-wise practice", color: "from-[#5B4636]/20 to-[#5B4636]/5", textColor: "text-[#B97A57]" },
-  { name: "GeeksforGeeks", url: "https://geeksforgeeks.org", desc: "Rich articles, topic-wise sheets and code explanations", color: "from-[#2F855A]/20 to-[#2F855A]/5", textColor: "text-[#48BB78]" },
-  { name: "HackerRank", url: "https://hackerrank.com", desc: "Great for language proficiency tests and foundational practice", color: "from-[#00EA64]/20 to-[#00EA64]/5", textColor: "text-[#00EA64]" }
+  { name: "LeetCode", url: "https://leetcode.com", desc: "Best for standard SDE interview patterns", color: "from-[#FFA116]/20 to-[#FFA116]/5", textColor: "text-[#FFA116]" },
+  { name: "Codeforces", url: "https://codeforces.com", desc: "Excellent for algorithmic contests and speed", color: "from-[#3182CE]/20 to-[#3182CE]/5", textColor: "text-[#3182CE]" },
+  { name: "GeeksforGeeks", url: "https://geeksforgeeks.org", desc: "Rich articles and company-wise practice problems", color: "from-[#2F855A]/20 to-[#2F855A]/5", textColor: "text-[#48BB78]" }
 ];
 
-const LECTURES = [
-  { title: "Striver's A2Z DSA Playlist", channel: "take U forward", desc: "Best comprehensive multi-language DSA course from scratch", url: "https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", tags: ["C++", "Java"] },
-  { title: "C++ DSA Bootcamp", channel: "Love Babbar", desc: "Supreme batch C++ and algorithms playlist", url: "https://youtube.com/playlist?list=PLDzeHZWIZsTrytAR3ltFITkK5VMh5ODNh", tags: ["C++"] },
-  { title: "Java DSA & Interview Prep", channel: "Kunal Kushwaha", desc: "Detailed explanations of recursion, trees, and system parameters", url: "https://youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsPZu1wMGeA7xGrk9g", tags: ["Java"] },
-  { title: "Python Algorithm Walks", channel: "NeetCode", desc: "Visual whiteboarding and optimal Python code details", url: "https://youtube.com/@NeetCode", tags: ["Python"] }
-];
-
-const INFLUENCERS = [
-  { name: "Raj Vikramaditya (Striver)", role: "Software Engineer @ Google", desc: "Daily DSA problems, sheets, and placement tips", url: "https://linkedin.com/in/raj-vikramaditya" },
-  { name: "Arsh Goyal", role: "Senior Engineer @ Samsung", desc: "#6Companies30Days challenge guides and interview sheets", url: "https://linkedin.com/in/arshgoyal" },
-  { name: "Love Babbar", role: "Ex-Amazon SDE", desc: "Software placements, resume builder sessions, and tech roadmaps", url: "https://linkedin.com/in/love-babbar-38ab85187" }
+const MENTORS_DIRECTORY = [
+  // Indian Creators (At least 10)
+  { 
+    name: "Raj Vikramaditya (Striver)", 
+    origin: "India", 
+    role: "Ex-SDE at Google | Founder of takeUforward", 
+    desc: "A2Z DSA sheets creator. Guides on placements, algorithmic logic, and Google interview loops.", 
+    url: "https://www.linkedin.com/in/raj-vikramaditya" 
+  },
+  { 
+    name: "Love Babbar", 
+    origin: "India", 
+    role: "Ex-Amazon SDE | Founder of CodeHelp", 
+    desc: "Placements strategist. Guides on C++/Java Bootcamps, resume reviews, and mass hiring preparation.", 
+    url: "https://www.linkedin.com/in/love-babbar-38ab85187" 
+  },
+  { 
+    name: "Harkirat Singh", 
+    origin: "India", 
+    role: "Founder of Cohort 100xDevs | Ex-SDE", 
+    desc: "Web development & DevOps mentor. Guides on open source, remote SDE jobs, and startup scaling.", 
+    url: "https://www.linkedin.com/in/kirat-singh" 
+  },
+  { 
+    name: "Kunal Kushwaha", 
+    origin: "India", 
+    role: "DevRel Manager at Civo | Founder of Community Classroom", 
+    desc: "DevOps & open source advocate. Guides on Git, cloud native paths, and global remote internships.", 
+    url: "https://www.linkedin.com/in/kunal-kushwaha" 
+  },
+  { 
+    name: "Hitesh Choudhary", 
+    origin: "India", 
+    role: "Founder of LearnCodeOnline | Tech Educator", 
+    desc: "Full-stack mobile/web developer. Guides on JavaScript, frameworks, and system building.", 
+    url: "https://www.linkedin.com/in/hiteshchoudhary" 
+  },
+  { 
+    name: "Arsh Goyal", 
+    origin: "India", 
+    role: "Senior SDE at Samsung | Career Creator", 
+    desc: "Placement coach. Guides on #6Companies30Days coding challenges and off-campus jobs.", 
+    url: "https://www.linkedin.com/in/arshgoyal" 
+  },
+  { 
+    name: "Keerti Purswani", 
+    origin: "India", 
+    role: "Senior SDE | Creator of Girls in Tech", 
+    desc: "System design & backend developer. Guides on database structures and SDE product paths.", 
+    url: "https://www.linkedin.com/in/keerti-purswani" 
+  },
+  { 
+    name: "Aman Dhattarwal", 
+    origin: "India", 
+    role: "Founder of Apna College & Apni Kaksha", 
+    desc: "Youth counselor. Guides on soft skills, Java foundation, and tier-3 college placements.", 
+    url: "https://www.linkedin.com/in/dhattarwalaman" 
+  },
+  { 
+    name: "Anuj Kumar Sharma", 
+    origin: "India", 
+    role: "Ex-Amazon SDE | Founder of Anuj Bhaiya Tech", 
+    desc: "DSA coach. Guides on placement bootcamps, Java programming, and tech interview structures.", 
+    url: "https://www.linkedin.com/in/anuj-kumar-sharma-b8602b11b" 
+  },
+  { 
+    name: "Sanket Singh", 
+    origin: "India", 
+    role: "Ex-Google SDE | Founder of Algocamp", 
+    desc: "Backend systems architect. Guides on SDE-2 backend engineering, JavaScript execution loops, and databases.", 
+    url: "https://www.linkedin.com/in/singhsanket143" 
+  },
+  { 
+    name: "Gaurav Sen", 
+    origin: "India", 
+    role: "Ex-SDE Morgan Stanley | Founder of InterviewReady", 
+    desc: "System Design specialist. Guides on microservices, system scaling, and caching design paradigms.", 
+    url: "https://www.linkedin.com/in/gaurav-sen-56b6b553" 
+  },
+  
+  // Global SDE Advisors (7)
+  { 
+    name: "Clément Mihailescu", 
+    origin: "Global", 
+    role: "Ex-Google & Facebook SDE | Founder of AlgoExpert", 
+    desc: "Technical interview coach. Guides on FAANG hiring cycles, visual algorithms, and resume designs.", 
+    url: "https://www.linkedin.com/in/clementmihailescu" 
+  },
+  { 
+    name: "NeetCode (Larry)", 
+    origin: "Global", 
+    role: "Famous SDE Creator | Ex-Google SDE", 
+    desc: "DSA visualization expert. Guides on pattern mappings, clean Python coding, and FAANG checklists.", 
+    url: "https://www.youtube.com/@NeetCode" 
+  },
+  { 
+    name: "Brad Traversy", 
+    origin: "Global", 
+    role: "Creator of Traversy Media", 
+    desc: "Self-taught web development expert. Guides on API building, Javascript, and responsive designs.", 
+    url: "https://www.youtube.com/@traversymedia" 
+  },
+  { 
+    name: "Dan Abramov", 
+    origin: "Global", 
+    role: "Ex-React Core Team | Co-creator of Redux", 
+    desc: "Frontend architect. Guides on visual models of code compilation, state machines, and JavaScript.", 
+    url: "https://github.com/gaearon" 
+  },
+  { 
+    name: "Hussein Nasser", 
+    origin: "Global", 
+    role: "Senior SDE | Backend Podcast Host", 
+    desc: "Backend architecture expert. Guides on network protocols, database engines, and proxy proxies.", 
+    url: "https://www.youtube.com/@hnasr" 
+  },
+  { 
+    name: "TechLead (Patrick Shyu)", 
+    origin: "Global", 
+    role: "Ex-Google Staff SDE | Content Creator", 
+    desc: "Industry realist. Guides on tech salaries, tech careers, and software engineering mindsets.", 
+    url: "https://www.youtube.com/@TechLead" 
+  },
+  { 
+    name: "John Somnez", 
+    origin: "Global", 
+    role: "Founder of Simple Programmer", 
+    desc: "Developer career counselor. Guides on soft skills, freelancing, and building software empires.", 
+    url: "https://www.youtube.com/@SimpleProgrammer" 
+  }
 ];
 
 const DSA_TOPICS = [
   {
-    id: "arrays",
-    title: "Arrays & Hashing",
+    id: "phase-1",
+    title: "Phase 1: Arrays",
     problems: [
-      { name: "Two Sum", difficulty: "Beginner", path: "two-sum", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Contains Duplicate", difficulty: "Beginner", path: "contains-duplicate", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Valid Anagram", difficulty: "Beginner", path: "valid-anagram", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Group Anagrams", difficulty: "Intermediate", path: "group-anagrams", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
-      { name: "Top K Frequent Elements", difficulty: "Intermediate", path: "top-k-frequent-elements", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
+      { name: "Two Sum", difficulty: "Easy", path: "two-sum", practiceUrl: "https://leetcode.com/problems/two-sum/", conceptUrl: "https://takeuforward.org/data-structure/two-sum-check-if-a-pair-with-given-sum-exists-in-an-array/" },
+      { name: "Best Time to Buy and Sell Stock", difficulty: "Easy", path: "best-time-to-buy-and-sell-stock", practiceUrl: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", conceptUrl: "https://takeuforward.org/data-structure/stock-buy-and-sell/" },
+      { name: "Contains Duplicate", difficulty: "Easy", path: "contains-duplicate", practiceUrl: "https://leetcode.com/problems/contains-duplicate/", conceptUrl: "https://www.geeksforgeeks.org/check-if-array-contains-duplicates-in-given-k-distance/" },
+      { name: "Product of Array Except Self", difficulty: "Medium", path: "product-of-array-except-self", practiceUrl: "https://leetcode.com/problems/product-of-array-except-self/", conceptUrl: "https://www.geeksforgeeks.org/a-product-array-puzzle/" },
+      { name: "Maximum Subarray (Kadane’s Algorithm)", difficulty: "Medium", path: "maximum-subarray", practiceUrl: "https://leetcode.com/problems/maximum-subarray/", conceptUrl: "https://takeuforward.org/data-structure/kadanes-algorithm-maximum-subarray-sum-in-an-array/" },
+      { name: "Maximum Product Subarray", difficulty: "Medium", path: "maximum-product-subarray", practiceUrl: "https://leetcode.com/problems/maximum-product-subarray/", conceptUrl: "https://takeuforward.org/data-structure/maximum-product-subarray-in-an-array/" },
+      { name: "Move Zeroes", difficulty: "Easy", path: "move-zeroes", practiceUrl: "https://leetcode.com/problems/move-zeroes/", conceptUrl: "https://takeuforward.org/data-structure/move-all-zeros-to-the-end-of-an-array/" },
+      { name: "Remove Duplicates from Sorted Array", difficulty: "Easy", path: "remove-duplicates-from-sorted-array", practiceUrl: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/", conceptUrl: "https://takeuforward.org/data-structure/remove-duplicates-in-place-from-sorted-array/" },
+      { name: "Rotate Array", difficulty: "Medium", path: "rotate-array", practiceUrl: "https://leetcode.com/problems/rotate-array/", conceptUrl: "https://takeuforward.org/data-structure/rotate-array-by-k-elements/" },
+      { name: "Find Minimum in Rotated Sorted Array", difficulty: "Medium", path: "find-minimum-in-rotated-sorted-array", practiceUrl: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", conceptUrl: "https://takeuforward.org/binary-search/find-minimum-in-rotated-sorted-array/" },
+      { name: "Search in Rotated Sorted Array", difficulty: "Medium", path: "search-in-rotated-sorted-array", practiceUrl: "https://leetcode.com/problems/search-in-rotated-sorted-array/", conceptUrl: "https://takeuforward.org/binary-search/search-in-rotated-sorted-array-i/" },
+      { name: "Majority Element", difficulty: "Easy", path: "majority-element", practiceUrl: "https://leetcode.com/problems/majority-element/", conceptUrl: "https://takeuforward.org/data-structure/find-the-majority-element-that-appears-more-than-ndiv2-times/" },
+      { name: "Missing Number", difficulty: "Easy", path: "missing-number", practiceUrl: "https://leetcode.com/problems/missing-number/", conceptUrl: "https://takeuforward.org/data-structure/find-the-missing-number-in-an-array/" },
+      { name: "Find All Numbers Disappeared in Array", difficulty: "Easy", path: "find-all-numbers-disappeared-in-array", practiceUrl: "https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/", conceptUrl: "https://www.geeksforgeeks.org/find-all-numbers-disappeared-in-an-array/" }
     ]
   },
   {
-    id: "two-pointers",
-    title: "Two Pointers & Sliding Window",
+    id: "phase-2",
+    title: "Phase 2: Two Pointers",
     problems: [
-      { name: "Valid Palindrome", difficulty: "Beginner", path: "valid-palindrome", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Container With Most Water", difficulty: "Intermediate", path: "container-with-most-water", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Best Time to Buy and Sell Stock", difficulty: "Beginner", path: "best-time-to-buy-and-sell-stock", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Longest Substring Without Repeating Characters", difficulty: "Intermediate", path: "longest-substring-without-repeating-characters", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" }
+      { name: "Valid Palindrome", difficulty: "Easy", path: "valid-palindrome", practiceUrl: "https://leetcode.com/problems/valid-palindrome/", conceptUrl: "https://takeuforward.org/data-structure/check-if-the-given-string-is-palindrome-or-not/" },
+      { name: "Container With Most Water", difficulty: "Medium", path: "container-with-most-water", practiceUrl: "https://leetcode.com/problems/container-with-most-water/", conceptUrl: "https://www.geeksforgeeks.org/container-with-most-water/" },
+      { name: "Two Sum II (Sorted Array)", difficulty: "Medium", path: "two-sum-ii", practiceUrl: "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/", conceptUrl: "https://www.geeksforgeeks.org/two-sum-in-sorted-array-two-pointers-approach/" },
+      { name: "3Sum", difficulty: "Medium", path: "3sum", practiceUrl: "https://leetcode.com/problems/3sum/", conceptUrl: "https://takeuforward.org/data-structure/3-sum-find-triplets-that-add-up-to-zero/" },
+      { name: "4Sum", difficulty: "Medium", path: "4sum", practiceUrl: "https://leetcode.com/problems/4sum/", conceptUrl: "https://takeuforward.org/data-structure/4-sum-find-quadruplets-that-add-up-to-a-target-value/" },
+      { name: "Remove Duplicates from Sorted Array II", difficulty: "Medium", path: "remove-duplicates-ii", practiceUrl: "https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/", conceptUrl: "https://www.geeksforgeeks.org/remove-duplicates-sorted-array-ii/" },
+      { name: "Move Zeroes (Two pointer approach)", difficulty: "Easy", path: "move-zeroes-two-pointer", practiceUrl: "https://leetcode.com/problems/move-zeroes/", conceptUrl: "https://takeuforward.org/data-structure/move-all-zeros-to-the-end-of-an-array/" },
+      { name: "Squares of Sorted Array", difficulty: "Easy", path: "squares-of-sorted-array", practiceUrl: "https://leetcode.com/problems/squares-of-a-sorted-array/", conceptUrl: "https://www.geeksforgeeks.org/sort-squares-of-a-sorted-array/" },
+      { name: "Backspace String Compare", difficulty: "Easy", path: "backspace-string-compare", practiceUrl: "https://leetcode.com/problems/backspace-string-compare/", conceptUrl: "https://www.geeksforgeeks.org/backspace-string-compare-simplified/" }
     ]
   },
   {
-    id: "linked-lists",
-    title: "Linked Lists",
+    id: "phase-3",
+    title: "Phase 3: Sliding Window",
     problems: [
-      { name: "Reverse Linked List", difficulty: "Beginner", path: "reverse-linked-list", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Merge Two Sorted Lists", difficulty: "Beginner", path: "merge-two-sorted-lists", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Linked List Cycle", difficulty: "Beginner", path: "linked-list-cycle", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
-      { name: "Remove Nth Node From End of List", difficulty: "Intermediate", path: "remove-nth-node-from-end-of-list", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
+      { name: "Maximum Sum Subarray of Size K", difficulty: "Easy", path: "max-sum-subarray-k", practiceUrl: "https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1", conceptUrl: "https://www.geeksforgeeks.org/find-maximum-minimum-sum-subarray-size-k/" },
+      { name: "Longest Substring Without Repeating Characters", difficulty: "Medium", path: "longest-substring-without-repeating-characters", practiceUrl: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", conceptUrl: "https://takeuforward.org/data-structure/longest-substring-without-repeating-characters/" },
+      { name: "Longest Repeating Character Replacement", difficulty: "Medium", path: "longest-repeating-character-replacement", practiceUrl: "https://leetcode.com/problems/longest-repeating-character-replacement/", conceptUrl: "https://www.geeksforgeeks.org/maximum-length-substring-having-all-same-characters-after-at-most-k-changes/" },
+      { name: "Minimum Size Subarray Sum", difficulty: "Medium", path: "minimum-size-subarray-sum", practiceUrl: "https://leetcode.com/problems/minimum-size-subarray-sum/", conceptUrl: "https://www.geeksforgeeks.org/minimum-length-subarray-sum-greater-given-value/" },
+      { name: "Permutation in String", difficulty: "Medium", path: "permutation-in-string", practiceUrl: "https://leetcode.com/problems/permutation-in-string/", conceptUrl: "https://www.geeksforgeeks.org/permutation-in-string-sliding-window/" },
+      { name: "Find All Anagrams in a String", difficulty: "Medium", path: "find-all-anagrams", practiceUrl: "https://leetcode.com/problems/find-all-anagrams-in-a-string/", conceptUrl: "https://www.geeksforgeeks.org/find-all-occurrences-of-an-anagram-in-a-string/" },
+      { name: "Sliding Window Maximum", difficulty: "Hard", path: "sliding-window-maximum", practiceUrl: "https://leetcode.com/problems/sliding-window-maximum/", conceptUrl: "https://takeuforward.org/data-structure/sliding-window-maximum/" }
     ]
   },
   {
-    id: "trees-graphs",
-    title: "Trees & Graphs",
+    id: "phase-4",
+    title: "Phase 4: Binary Search",
     problems: [
-      { name: "Invert Binary Tree", difficulty: "Beginner", path: "invert-binary-tree", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Maximum Depth of Binary Tree", difficulty: "Beginner", path: "maximum-depth-of-binary-tree", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Number of Islands", difficulty: "Intermediate", path: "number-of-islands", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Clone Graph", difficulty: "Intermediate", path: "clone-graph", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" }
+      { name: "Binary Search", difficulty: "Easy", path: "binary-search", practiceUrl: "https://leetcode.com/problems/binary-search/", conceptUrl: "https://takeuforward.org/binary-search/binary-search-explained/" },
+      { name: "First and Last Position of Element in Sorted Array", difficulty: "Medium", path: "first-last-position", practiceUrl: "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/", conceptUrl: "https://takeuforward.org/binary-search/first-and-last-occurrence-in-a-sorted-array/" },
+      { name: "Search Insert Position", difficulty: "Easy", path: "search-insert-position", practiceUrl: "https://leetcode.com/problems/search-insert-position/", conceptUrl: "https://takeuforward.org/binary-search/search-insert-position/" },
+      { name: "Find Peak Element", difficulty: "Medium", path: "find-peak-element", practiceUrl: "https://leetcode.com/problems/find-peak-element/", conceptUrl: "https://takeuforward.org/binary-search/find-peak-element-in-a-2d-matrix-or-1d-array/" },
+      { name: "Find Minimum in Rotated Sorted Array", difficulty: "Medium", path: "find-min-rotated", practiceUrl: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", conceptUrl: "https://takeuforward.org/binary-search/find-minimum-in-rotated-sorted-array/" },
+      { name: "Search in Rotated Sorted Array", difficulty: "Medium", path: "search-rotated", practiceUrl: "https://leetcode.com/problems/search-in-rotated-sorted-array/", conceptUrl: "https://takeuforward.org/binary-search/search-in-rotated-sorted-array-i/" },
+      { name: "Median of Two Sorted Arrays", difficulty: "Hard", path: "median-two-arrays", practiceUrl: "https://leetcode.com/problems/median-of-two-sorted-arrays/", conceptUrl: "https://takeuforward.org/binary-search/median-of-two-sorted-arrays-of-different-sizes/" }
     ]
   },
   {
-    id: "dp-greedy",
-    title: "Dynamic Programming & Greedy",
+    id: "phase-5",
+    title: "Phase 5: Hashing",
     problems: [
-      { name: "Climbing Stairs", difficulty: "Beginner", path: "climbing-stairs", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Coin Change", difficulty: "Intermediate", path: "coin-change", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Longest Common Subsequence", difficulty: "Intermediate", path: "longest-common-subsequence", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
-      { name: "Jump Game", difficulty: "Intermediate", path: "jump-game", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
+      { name: "Two Sum (HashMap approach)", difficulty: "Easy", path: "two-sum-hash", practiceUrl: "https://leetcode.com/problems/two-sum/", conceptUrl: "https://takeuforward.org/data-structure/two-sum-check-if-a-pair-with-given-sum-exists-in-an-array/" },
+      { name: "Subarray Sum Equals K", difficulty: "Medium", path: "subarray-sum-k", practiceUrl: "https://leetcode.com/problems/subarray-sum-equals-k/", conceptUrl: "https://takeuforward.org/data-structure/split-array-into-two-subarrays-with-equal-sum/" },
+      { name: "Longest Consecutive Sequence", difficulty: "Medium", path: "longest-consecutive-sequence", practiceUrl: "https://leetcode.com/problems/longest-consecutive-sequence/", conceptUrl: "https://takeuforward.org/data-structure/longest-consecutive-sequence-in-an-array/" },
+      { name: "Top K Frequent Elements", difficulty: "Medium", path: "top-k-frequent", practiceUrl: "https://leetcode.com/problems/top-k-frequent-elements/", conceptUrl: "https://www.geeksforgeeks.org/find-k-numbers-occurrences-given-array/" },
+      { name: "Valid Anagram", difficulty: "Easy", path: "valid-anagram", practiceUrl: "https://leetcode.com/problems/valid-anagram/", conceptUrl: "https://www.geeksforgeeks.org/check-whether-two-strings-are-anagram-of-each-other/" },
+      { name: "Group Anagrams", difficulty: "Medium", path: "group-anagrams", practiceUrl: "https://leetcode.com/problems/group-anagrams/", conceptUrl: "https://www.geeksforgeeks.org/given-an-array-of-strings-group-anagrams-together/" },
+      { name: "Isomorphic Strings", difficulty: "Easy", path: "isomorphic-strings", practiceUrl: "https://leetcode.com/problems/isomorphic-strings/", conceptUrl: "https://www.geeksforgeeks.org/check-if-two-given-strings-are-isomorphic-to-each-other/" }
     ]
   },
   {
-    id: "system-design",
-    title: "System Design Patterns",
+    id: "phase-6",
+    title: "Phase 6: Stack",
     problems: [
-      { name: "Design a Rate Limiter", difficulty: "Intermediate", path: "design-rate-limiter", platform: "SystemDesign", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Design Twitter / X Feed", difficulty: "Hard", path: "design-twitter", platform: "SystemDesign", tier: "Tier 2", companyType: "SaaS-Based" },
-      { name: "Design a URL Shortener", difficulty: "Beginner", path: "design-url-shortener", platform: "SystemDesign", tier: "Tier 3", companyType: "Service-Based" },
-      { name: "Design a Chat System", difficulty: "Hard", path: "design-chat-system", platform: "SystemDesign", tier: "Tier 2", companyType: "SaaS-Based" }
+      { name: "Valid Parentheses", difficulty: "Easy", path: "valid-parentheses", practiceUrl: "https://leetcode.com/problems/valid-parentheses/", conceptUrl: "https://takeuforward.org/data-structure/check-for-balanced-parentheses/" },
+      { name: "Min Stack", difficulty: "Medium", path: "min-stack", practiceUrl: "https://leetcode.com/problems/min-stack/", conceptUrl: "https://takeuforward.org/data-structure/implement-min-stack-o1-time-and-o1-extra-space/" },
+      { name: "Next Greater Element", difficulty: "Medium", path: "next-greater-element", practiceUrl: "https://leetcode.com/problems/next-greater-element-i/", conceptUrl: "https://takeuforward.org/data-structure/next-greater-element-using-stack/" },
+      { name: "Daily Temperatures", difficulty: "Medium", path: "daily-temperatures", practiceUrl: "https://leetcode.com/problems/daily-temperatures/", conceptUrl: "https://www.geeksforgeeks.org/daily-temperatures-problems-using-stack/" },
+      { name: "Largest Rectangle in Histogram", difficulty: "Hard", path: "largest-rectangle-histogram", practiceUrl: "https://leetcode.com/problems/largest-rectangle-in-histogram/", conceptUrl: "https://takeuforward.org/data-structure/area-of-largest-rectangle-in-histogram/" },
+      { name: "Evaluate Reverse Polish Notation", difficulty: "Medium", path: "evaluate-rpn", practiceUrl: "https://leetcode.com/problems/evaluate-reverse-polish-notation/", conceptUrl: "https://www.geeksforgeeks.org/evaluate-the-value-of-an-arithmetic-expression-in-reverse-polish-notation/" }
     ]
   },
   {
-    id: "codeforces",
-    title: "Codeforces (Hard)",
+    id: "phase-7",
+    title: "Phase 7: Queue",
     problems: [
-      { name: "Maximum Segment Sum", difficulty: "Hard", path: "max-segment-sum", platform: "Codeforces", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Shortest Path in Weighted Tree", difficulty: "Hard", path: "shortest-path-tree", platform: "Codeforces", tier: "Tier 1", companyType: "Product-Based" },
-      { name: "Maximum XOR Subarray", difficulty: "Hard", path: "max-xor-subarray", platform: "Codeforces", tier: "Tier 2", companyType: "SaaS-Based" },
-      { name: "Graph Connectivity Cycles", difficulty: "Hard", path: "graph-connectivity", platform: "Codeforces", tier: "Tier 2", companyType: "SaaS-Based" }
+      { name: "Implement Queue using Stacks", difficulty: "Easy", path: "queue-using-stacks", practiceUrl: "https://leetcode.com/problems/implement-queue-using-stacks/", conceptUrl: "https://takeuforward.org/data-structure/implement-queue-using-stack/" },
+      { name: "Implement Stack using Queue", difficulty: "Easy", path: "stack-using-queue", practiceUrl: "https://leetcode.com/problems/implement-stack-using-queues/", conceptUrl: "https://takeuforward.org/data-structure/implement-stack-using-single-queue/" },
+      { name: "Sliding Window Maximum (Deque approach)", difficulty: "Hard", path: "sliding-window-deque", practiceUrl: "https://leetcode.com/problems/sliding-window-maximum/", conceptUrl: "https://takeuforward.org/data-structure/sliding-window-maximum/" },
+      { name: "First Non-Repeating Character in Stream", difficulty: "Medium", path: "first-non-repeating", practiceUrl: "https://www.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1", conceptUrl: "https://www.geeksforgeeks.org/find-first-non-repeating-character-stream-characters/" }
+    ]
+  },
+  {
+    id: "phase-8",
+    title: "Phase 8: Linked List",
+    problems: [
+      { name: "Reverse Linked List", difficulty: "Easy", path: "reverse-linked-list", practiceUrl: "https://leetcode.com/problems/reverse-linked-list/", conceptUrl: "https://takeuforward.org/data-structure/reverse-a-linked-list/" },
+      { name: "Detect Cycle in Linked List", difficulty: "Easy", path: "detect-cycle-linked-list", practiceUrl: "https://leetcode.com/problems/linked-list-cycle/", conceptUrl: "https://takeuforward.org/data-structure/detect-a-loop-in-linked-list/" },
+      { name: "Find Middle of Linked List", difficulty: "Easy", path: "find-middle-linked-list", practiceUrl: "https://leetcode.com/problems/middle-of-the-linked-list/", conceptUrl: "https://takeuforward.org/data-structure/find-middle-element-in-a-linked-list/" },
+      { name: "Merge Two Sorted Lists", difficulty: "Easy", path: "merge-sorted-lists", practiceUrl: "https://leetcode.com/problems/merge-two-sorted-lists/", conceptUrl: "https://takeuforward.org/data-structure/merge-two-sorted-linked-lists/" },
+      { name: "Remove Nth Node From End", difficulty: "Medium", path: "remove-nth-from-end", practiceUrl: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", conceptUrl: "https://takeuforward.org/data-structure/remove-nth-node-from-the-end-of-a-linked-list/" },
+      { name: "Intersection of Two Linked Lists", difficulty: "Easy", path: "intersection-linked-lists", practiceUrl: "https://leetcode.com/problems/intersection-of-two-linked-lists/", conceptUrl: "https://takeuforward.org/data-structure/find-intersection-point-of-two-linked-lists/" },
+      { name: "Reverse Linked List II", difficulty: "Medium", path: "reverse-linked-list-ii", practiceUrl: "https://leetcode.com/problems/reverse-linked-list-ii/", conceptUrl: "https://www.geeksforgeeks.org/reverse-a-linked-list-groups-given-size/" },
+      { name: "Copy List with Random Pointer", difficulty: "Medium", path: "copy-list-random-pointer", practiceUrl: "https://leetcode.com/problems/copy-list-with-random-pointer/", conceptUrl: "https://takeuforward.org/data-structure/clone-linked-list-with-random-and-next-pointer/" },
+      { name: "LRU Cache", difficulty: "Hard", path: "lru-cache", practiceUrl: "https://leetcode.com/problems/lru-cache/", conceptUrl: "https://takeuforward.org/data-structure/lru-cache-implementation/" }
+    ]
+  },
+  {
+    id: "phase-9",
+    title: "Phase 9: Trees",
+    problems: [
+      { name: "Maximum Depth of Binary Tree", difficulty: "Easy", path: "max-depth-tree", practiceUrl: "https://leetcode.com/problems/maximum-depth-of-binary-tree/", conceptUrl: "https://takeuforward.org/data-structure/maximum-depth-of-a-binary-tree/" },
+      { name: "Same Tree", difficulty: "Easy", path: "same-tree", practiceUrl: "https://leetcode.com/problems/same-tree/", conceptUrl: "https://takeuforward.org/data-structure/check-if-two-trees-are-identical/" },
+      { name: "Invert Binary Tree", difficulty: "Easy", path: "invert-binary-tree", practiceUrl: "https://leetcode.com/problems/invert-binary-tree/", conceptUrl: "https://www.geeksforgeeks.org/write-an-efficient-c-function-to-convert-a-tree-into-its-mirror-image/" },
+      { name: "Binary Tree Level Order Traversal", difficulty: "Medium", path: "level-order-traversal", practiceUrl: "https://leetcode.com/problems/binary-tree-level-order-traversal/", conceptUrl: "https://takeuforward.org/data-structure/level-order-traversal-of-a-binary-tree/" },
+      { name: "Diameter of Binary Tree", difficulty: "Easy", path: "diameter-tree", practiceUrl: "https://leetcode.com/problems/diameter-of-binary-tree/", conceptUrl: "https://takeuforward.org/data-structure/calculate-diameter-of-a-binary-tree/" },
+      { name: "Balanced Binary Tree", difficulty: "Easy", path: "balanced-tree", practiceUrl: "https://leetcode.com/problems/balanced-binary-tree/", conceptUrl: "https://takeuforward.org/data-structure/check-if-the-binary-tree-is-balanced-binary-tree/" },
+      { name: "Subtree of Another Tree", difficulty: "Easy", path: "subtree-another-tree", practiceUrl: "https://leetcode.com/problems/subtree-of-another-tree/", conceptUrl: "https://www.geeksforgeeks.org/check-if-a-binary-tree-is-subtree-of-another-binary-tree/" },
+      { name: "Lowest Common Ancestor (BST)", difficulty: "Easy", path: "lca-bst", practiceUrl: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/", conceptUrl: "https://takeuforward.org/data-structure/lowest-common-ancestor-in-binary-search-tree/" },
+      { name: "Lowest Common Ancestor (Binary Tree)", difficulty: "Medium", path: "lca-tree", practiceUrl: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", conceptUrl: "https://takeuforward.org/data-structure/lowest-common-ancestor-for-two-given-nodes-in-a-binary-tree/" },
+      { name: "Validate Binary Search Tree", difficulty: "Medium", path: "validate-bst", practiceUrl: "https://leetcode.com/problems/validate-binary-search-tree/", conceptUrl: "https://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/" },
+      { name: "Kth Smallest Element in BST", difficulty: "Medium", path: "kth-smallest-bst", practiceUrl: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", conceptUrl: "https://takeuforward.org/data-structure/kth-largest-smallest-element-in-binary-search-tree/" },
+      { name: "Construct Binary Tree from Preorder and Inorder", difficulty: "Medium", path: "build-tree-pre-in", practiceUrl: "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", conceptUrl: "https://takeuforward.org/data-structure/construct-a-binary-tree-from-inorder-and-preorder-traversal/" }
+    ]
+  },
+  {
+    id: "phase-10",
+    title: "Phase 10: Heaps & Deques",
+    problems: [
+      { name: "Kth Largest Element in Array", difficulty: "Medium", path: "kth-largest-array", practiceUrl: "https://leetcode.com/problems/kth-largest-element-in-an-array/", conceptUrl: "https://takeuforward.org/data-structure/kth-largest-smallest-element-in-an-array/" },
+      { name: "Top K Frequent Elements", difficulty: "Medium", path: "top-k-frequent-heap", practiceUrl: "https://leetcode.com/problems/top-k-frequent-elements/", conceptUrl: "https://www.geeksforgeeks.org/find-k-numbers-occurrences-given-array/" },
+      { name: "Find Median from Data Stream", difficulty: "Hard", path: "median-data-stream", practiceUrl: "https://leetcode.com/problems/find-median-from-data-stream/", conceptUrl: "https://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/" },
+      { name: "Merge K Sorted Lists", difficulty: "Hard", path: "merge-k-sorted-lists", practiceUrl: "https://leetcode.com/problems/merge-k-sorted-lists/", conceptUrl: "https://www.geeksforgeeks.org/merge-k-sorted-linked-lists/" },
+      { name: "K Closest Points to Origin", difficulty: "Medium", path: "k-closest-points", practiceUrl: "https://leetcode.com/problems/k-closest-points-to-origin/", conceptUrl: "https://www.geeksforgeeks.org/find-k-closest-points-to-the-origin/" }
+    ]
+  },
+  {
+    id: "phase-11",
+    title: "Phase 11: Greedy Algorithms",
+    problems: [
+      { name: "Jump Game", difficulty: "Medium", path: "jump-game", practiceUrl: "https://leetcode.com/problems/jump-game/", conceptUrl: "https://www.geeksforgeeks.org/greedy-algorithm-to-find-minimum-jumps-to-reach-destination/" },
+      { name: "Jump Game II", difficulty: "Medium", path: "jump-game-ii", practiceUrl: "https://leetcode.com/problems/jump-game-ii/", conceptUrl: "https://www.geeksforgeeks.org/minimum-number-of-jumps-to-reach-end-of-an-array/" },
+      { name: "Gas Station", difficulty: "Medium", path: "gas-station", practiceUrl: "https://leetcode.com/problems/gas-station/", conceptUrl: "https://www.geeksforgeeks.org/find-the-first-circular-tour-that-visits-all-petrol-pumps/" },
+      { name: "Activity Selection Problem", difficulty: "Easy", path: "activity-selection", practiceUrl: "https://www.geeksforgeeks.org/problems/activity-selection-1587115620/1", conceptUrl: "https://www.geeksforgeeks.org/activity-selection-problem-greedy-algo-1/" },
+      { name: "Merge Intervals", difficulty: "Medium", path: "merge-intervals-greedy", practiceUrl: "https://leetcode.com/problems/merge-intervals/", conceptUrl: "https://takeuforward.org/data-structure/merge-overlapping-sub-intervals/" },
+      { name: "Non-overlapping Intervals", difficulty: "Medium", path: "non-overlapping-intervals", practiceUrl: "https://leetcode.com/problems/non-overlapping-intervals/", conceptUrl: "https://www.geeksforgeeks.org/non-overlapping-intervals-greedy-approach/" }
+    ]
+  },
+  {
+    id: "phase-12",
+    title: "Phase 12: Intervals",
+    problems: [
+      { name: "Insert Interval", difficulty: "Medium", path: "insert-interval", practiceUrl: "https://leetcode.com/problems/insert-interval/", conceptUrl: "https://www.geeksforgeeks.org/insert-in-sorted-and-non-overlapping-interval-array/" },
+      { name: "Merge Intervals", difficulty: "Medium", path: "merge-intervals-direct", practiceUrl: "https://leetcode.com/problems/merge-intervals/", conceptUrl: "https://takeuforward.org/data-structure/merge-overlapping-sub-intervals/" },
+      { name: "Meeting Rooms", difficulty: "Easy", path: "meeting-rooms", practiceUrl: "https://www.geeksforgeeks.org/problems/meeting-rooms/0", conceptUrl: "https://www.geeksforgeeks.org/determine-if-a-person-could-attend-all-meetings/" },
+      { name: "Meeting Rooms II", difficulty: "Medium", path: "meeting-rooms-ii", practiceUrl: "https://www.geeksforgeeks.org/problems/meeting-rooms-ii/0", conceptUrl: "https://www.geeksforgeeks.org/find-minimum-number-of-meeting-rooms-required/" }
+    ]
+  },
+  {
+    id: "phase-13",
+    title: "Phase 13: Backtracking",
+    problems: [
+      { name: "Subsets", difficulty: "Medium", path: "subsets", practiceUrl: "https://leetcode.com/problems/subsets/", conceptUrl: "https://takeuforward.org/data-structure/power-set-print-all-the-subsets-of-a-string/" },
+      { name: "Subsets II", difficulty: "Medium", path: "subsets-ii", practiceUrl: "https://leetcode.com/problems/subsets-ii/", conceptUrl: "https://takeuforward.org/data-structure/subset-ii-print-all-unique-subsets/" },
+      { name: "Permutations", difficulty: "Medium", path: "permutations", practiceUrl: "https://leetcode.com/problems/permutations/", conceptUrl: "https://takeuforward.org/data-structure/print-all-permutations-of-a-string-array/" },
+      { name: "Permutations II", difficulty: "Medium", path: "permutations-ii", practiceUrl: "https://leetcode.com/problems/permutations-ii/", conceptUrl: "https://www.geeksforgeeks.org/distinct-permutations-of-the-string/" },
+      { name: "Combination Sum", difficulty: "Medium", path: "combination-sum", practiceUrl: "https://leetcode.com/problems/combination-sum/", conceptUrl: "https://takeuforward.org/data-structure/combination-sum-1/" },
+      { name: "Combination Sum II", difficulty: "Medium", path: "combination-sum-ii", practiceUrl: "https://leetcode.com/problems/combination-sum-ii/", conceptUrl: "https://takeuforward.org/data-structure/combination-sum-ii/" },
+      { name: "Generate Parentheses", difficulty: "Medium", path: "generate-parentheses", practiceUrl: "https://leetcode.com/problems/generate-parentheses/", conceptUrl: "https://www.geeksforgeeks.org/generate-all-combinations-of-balanced-parentheses/" },
+      { name: "Word Search", difficulty: "Medium", path: "word-search", practiceUrl: "https://leetcode.com/problems/word-search/", conceptUrl: "https://www.geeksforgeeks.org/search-a-word-in-a-2d-grid-of-characters/" }
+    ]
+  },
+  {
+    id: "phase-14",
+    title: "Phase 14: Graphs",
+    problems: [
+      { name: "Number of Islands", difficulty: "Medium", path: "number-islands-graph", practiceUrl: "https://leetcode.com/problems/number-of-islands/", conceptUrl: "https://takeuforward.org/data-structure/number-of-islands/" },
+      { name: "Clone Graph", difficulty: "Medium", path: "clone-graph", practiceUrl: "https://leetcode.com/problems/clone-graph/", conceptUrl: "https://www.geeksforgeeks.org/clone-an-undirected-graph/" },
+      { name: "Flood Fill", difficulty: "Easy", path: "flood-fill", practiceUrl: "https://leetcode.com/problems/flood-fill/", conceptUrl: "https://takeuforward.org/graphs/flood-fill-algorithm/" },
+      { name: "Course Schedule", difficulty: "Medium", path: "course-schedule", practiceUrl: "https://leetcode.com/problems/course-schedule/", conceptUrl: "https://takeuforward.org/data-structure/course-schedule-i-and-ii-pre-requisite-tasks-topological-sort-bfs-g-24/" },
+      { name: "Course Schedule II", difficulty: "Medium", path: "course-schedule-ii", practiceUrl: "https://leetcode.com/problems/course-schedule-ii/", conceptUrl: "https://takeuforward.org/data-structure/course-schedule-i-and-ii-pre-requisite-tasks-topological-sort-bfs-g-24/" },
+      { name: "Detect Cycle in Graph", difficulty: "Medium", path: "detect-cycle-graph", practiceUrl: "https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1", conceptUrl: "https://takeuforward.org/data-structure/detect-cycle-in-an-undirected-graph-using-bfs/" },
+      { name: "Number of Connected Components", difficulty: "Medium", path: "connected-components", practiceUrl: "https://www.geeksforgeeks.org/problems/number-of-provinces/1", conceptUrl: "https://takeuforward.org/data-structure/number-of-provinces/ " },
+      { name: "Rotting Oranges", difficulty: "Medium", path: "rotting-oranges", practiceUrl: "https://leetcode.com/problems/rotting-oranges/", conceptUrl: "https://takeuforward.org/data-structure/rotting-oranges-bfs-min-time-to-rot-all-oranges/" }
+    ]
+  },
+  {
+    id: "phase-15",
+    title: "Phase 15: Dynamic Programming",
+    problems: [
+      { name: "Climbing Stairs", difficulty: "Easy", path: "climbing-stairs-dp", practiceUrl: "https://leetcode.com/problems/climbing-stairs/", conceptUrl: "https://takeuforward.org/data-structure/dynamic-programming-climbing-stairs/" },
+      { name: "House Robber", difficulty: "Medium", path: "house-robber", practiceUrl: "https://leetcode.com/problems/house-robber/", conceptUrl: "https://takeuforward.org/data-structure/maximum-sum-of-non-adjacent-elements-dp-5/" },
+      { name: "House Robber II", difficulty: "Medium", path: "house-robber-ii", practiceUrl: "https://leetcode.com/problems/house-robber-ii/", conceptUrl: "https://takeuforward.org/data-structure/house-robber-2-dp-6/" },
+      { name: "Coin Change", difficulty: "Medium", path: "coin-change-dp", practiceUrl: "https://leetcode.com/problems/coin-change/", conceptUrl: "https://takeuforward.org/data-structure/coin-change-2-dp-22/" },
+      { name: "Longest Increasing Subsequence", difficulty: "Medium", path: "lis", practiceUrl: "https://leetcode.com/problems/longest-increasing-subsequence/", conceptUrl: "https://takeuforward.org/data-structure/longest-increasing-subsequence-dp-41/" },
+      { name: "Longest Common Subsequence", difficulty: "Medium", path: "lcs", practiceUrl: "https://leetcode.com/problems/longest-common-subsequence/", conceptUrl: "https://takeuforward.org/data-structure/longest-common-subsequence-dp-25/" },
+      { name: "0/1 Knapsack", difficulty: "Medium", path: "knapsack", practiceUrl: "https://www.geeksforgeeks.org/problems/0-1-knapsack-problem0927/1", conceptUrl: "https://takeuforward.org/data-structure/0-1-knapsack-dp-19/" },
+      { name: "Partition Equal Subset Sum", difficulty: "Medium", path: "partition-subset-sum", practiceUrl: "https://leetcode.com/problems/partition-equal-subset-sum/", conceptUrl: "https://takeuforward.org/data-structure/partition-equal-subset-sum-dp-15/" },
+      { name: "Edit Distance", difficulty: "Hard", path: "edit-distance", practiceUrl: "https://leetcode.com/problems/edit-distance/", conceptUrl: "https://takeuforward.org/data-structure/edit-distance-dp-33/" }
+    ]
+  },
+  {
+    id: "phase-16",
+    title: "Phase 16: Advanced Problems",
+    problems: [
+      { name: "Trapping Rain Water", difficulty: "Hard", path: "trapping-rain-water", practiceUrl: "https://leetcode.com/problems/trapping-rain-water/", conceptUrl: "https://takeuforward.org/data-structure/trapping-rainwater/" },
+      { name: "Word Ladder", difficulty: "Hard", path: "word-ladder", practiceUrl: "https://leetcode.com/problems/word-ladder/", conceptUrl: "https://takeuforward.org/graph/word-ladder-i-g-29/" },
+      { name: "Serialize and Deserialize Binary Tree", difficulty: "Hard", path: "serialize-deserialize-tree", practiceUrl: "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/", conceptUrl: "https://takeuforward.org/data-structure/serialize-and-deserialize-a-binary-tree/" },
+      { name: "Implement Trie", difficulty: "Medium", path: "implement-trie", practiceUrl: "https://leetcode.com/problems/implement-trie-prefix-tree/", conceptUrl: "https://takeuforward.org/data-structure/implement-trie-1-insert-search-startswith/" },
+      { name: "Design Add and Search Word", difficulty: "Medium", path: "design-add-search-trie", practiceUrl: "https://leetcode.com/problems/design-add-and-search-words-data-structure/", conceptUrl: "https://www.geeksforgeeks.org/trie-insert-and-search/" },
+      { name: "Alien Dictionary", difficulty: "Hard", path: "alien-dictionary", practiceUrl: "https://www.geeksforgeeks.org/problems/alien-dictionary/1", conceptUrl: "https://takeuforward.org/data-structure/alien-dictionary-topological-sort-g-26/" },
+      { name: "Minimum Window Substring", difficulty: "Hard", path: "minimum-window-substring", practiceUrl: "https://leetcode.com/problems/minimum-window-substring/", conceptUrl: "https://www.geeksforgeeks.org/find-the-smallest-window-in-a-string-containing-all-characters-of-another-string/" }
     ]
   }
 ];
@@ -207,9 +473,7 @@ function solve() {
         console.log(n);
     }
 }
-
-// For LeetCode, write the class function directly:
-// var twoSum = function(nums, target) { ... }`
+solve();`
 };
 
 export default function DsaCodingHubPage() {
@@ -227,18 +491,30 @@ export default function DsaCodingHubPage() {
   });
 
   // UI state
-  const [activeTopic, setActiveTopic] = useState('arrays');
+  const [activeTopic, setActiveTopic] = useState('phase-1');
   const [activeLang, setActiveLang] = useState('cpp');
   const [savedSuccess, setSavedSuccess] = useState(false);
-  const [difficultyFilter, setDifficultyFilter] = useState('All');
-  const [prepFilter, setPrepFilter] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const activeTopicProblems = DSA_TOPICS.find(t => t.id === activeTopic)?.problems || [];
-  const filteredProblems = activeTopicProblems.filter(prob => {
-    const matchesDiff = difficultyFilter === 'All' || prob.difficulty === difficultyFilter;
-    const matchesPrep = prepFilter === 'All' || prob.tier === prepFilter || prob.companyType === prepFilter;
-    return matchesDiff && matchesPrep;
-  });
+  // Active topic
+  const activeTopicObj = DSA_TOPICS.find(t => t.id === activeTopic) || DSA_TOPICS[0];
+
+  // Search logic across all phases
+  const searchResults = React.useMemo(() => {
+    if (!searchTerm.trim()) return null;
+    const term = searchTerm.toLowerCase();
+    const results = [];
+    DSA_TOPICS.forEach(phase => {
+      phase.problems.forEach(prob => {
+        if (prob.name.toLowerCase().includes(term) || phase.title.toLowerCase().includes(term)) {
+          results.push({ ...prob, phaseTitle: phase.title });
+        }
+      });
+    });
+    return results;
+  }, [searchTerm]);
+
+  const displayProblems = searchResults !== null ? searchResults : activeTopicObj.problems;
 
   // Sync statistics
   const totalProblems = DSA_TOPICS.reduce((acc, topic) => acc + topic.problems.length, 0);
@@ -264,7 +540,6 @@ export default function DsaCodingHubPage() {
     setCompletedProblems(nextCompleted);
     localStorage.setItem('completed_dsa_problems', JSON.stringify(nextCompleted));
 
-    // Confetti celebration if checked
     if (!completedProblems[probName]) {
       confetti({
         particleCount: 40,
@@ -275,154 +550,138 @@ export default function DsaCodingHubPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <Header title="DSA & Competitive Coding Dashboard" />
+    <div className="min-h-screen space-y-6">
+      <Header title="DSA & Competitive Coding Hub" />
 
-      {/* Main Container */}
-      <div className="mt-4 flex flex-col gap-6">
+      {/* KPI statistics section */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         
-        {/* KPI section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          
-          <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-purple/10 to-transparent">
-            <div className="p-3 bg-cyber-purple/20 rounded-xl text-cyber-purple">
-              <Trophy className="w-6 h-6 animate-pulse" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Solved</p>
-              <h4 className="text-xl font-bold text-white mt-0.5">{solvedCount + completedCount}</h4>
-              <span className="text-[9px] text-cyber-cyan font-medium">+{completedCount} from sheet tracker</span>
-            </div>
+        <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-purple/10 to-transparent">
+          <div className="p-3 bg-cyber-purple/20 rounded-xl text-cyber-purple">
+            <Trophy className="w-6 h-6 animate-pulse" />
           </div>
-
-          <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-pink/10 to-transparent">
-            <div className="p-3 bg-cyber-pink/20 rounded-xl text-cyber-pink">
-              <Flame className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Streak</p>
-              <div className="flex items-center gap-2 mt-0.5">
-                <h4 className="text-xl font-bold text-white">{streak} days</h4>
-                <div className="flex gap-0.5">
-                  <button onClick={() => setStreak(prev => Math.max(0, prev - 1))} className="text-[9px] bg-white/5 hover:bg-white/10 px-1 rounded">-</button>
-                  <button onClick={() => setStreak(prev => prev + 1)} className="text-[9px] bg-white/5 hover:bg-white/10 px-1 rounded">+</button>
-                </div>
-              </div>
-            </div>
+          <div>
+            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Solved</p>
+            <h4 className="text-xl font-bold text-white mt-0.5">{solvedCount + completedCount}</h4>
+            <span className="text-[9px] text-cyber-cyan font-medium">+{completedCount} from sheet tracker</span>
           </div>
-
-          <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-cyan/10 to-transparent">
-            <div className="p-3 bg-cyber-cyan/20 rounded-xl text-cyber-cyan">
-              <CheckCircle2 className="w-6 h-6" />
-            </div>
-            <div className="flex-1">
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Curated Sheet Progress</p>
-              <div className="flex items-center justify-between mt-0.5">
-                <h4 className="text-sm font-bold text-white">{completedCount}/{totalProblems} Problems</h4>
-                <span className="text-[10px] font-bold text-cyber-cyan">{progressPercent}%</span>
-              </div>
-              <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden mt-1.5">
-                <div className="bg-gradient-to-r from-cyber-purple to-cyber-cyan h-full transition-all duration-300" style={{ width: `${progressPercent}%` }}></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-blue/10 to-transparent">
-            <div className="p-3 bg-cyber-blue/20 rounded-xl text-cyber-blue">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Current Level</p>
-              <h4 className="text-sm font-bold text-white mt-0.5">
-                {solvedCount + completedCount < 50 ? 'Beginner Bridger' : solvedCount + completedCount < 200 ? 'Intermediate Coder' : 'Algorithms Master'}
-              </h4>
-              <span className="text-[9px] text-slate-500">Keep solving to unlock badges!</span>
-            </div>
-          </div>
-
         </div>
 
-        {/* Middle content: Tracker and Platform profile inputs */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-pink/10 to-transparent">
+          <div className="p-3 bg-cyber-pink/20 rounded-xl text-cyber-pink">
+            <Flame className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Streak</p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <h4 className="text-xl font-bold text-white">{streak} days</h4>
+              <div className="flex gap-0.5">
+                <button onClick={() => setStreak(prev => Math.max(0, prev - 1))} className="text-[9px] bg-white/5 hover:bg-white/10 px-1 rounded cursor-pointer font-bold text-white">-</button>
+                <button onClick={() => setStreak(prev => prev + 1)} className="text-[9px] bg-white/5 hover:bg-white/10 px-1 rounded cursor-pointer font-bold text-white">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          {/* Left Column: Problem Tracker (2 spans) */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
+        <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-cyan/10 to-transparent">
+          <div className="p-3 bg-cyber-cyan/20 rounded-xl text-cyber-cyan">
+            <BookOpenCheck className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Curated Sheet Progress</p>
+            <div className="flex items-center justify-between mt-0.5">
+              <h4 className="text-sm font-bold text-white">{completedCount}/{totalProblems} Problems</h4>
+              <span className="text-[10px] font-bold text-cyber-cyan">{progressPercent}%</span>
+            </div>
+            <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-gradient-to-r from-cyber-purple to-cyber-cyan h-full transition-all duration-300" style={{ width: `${progressPercent}%` }}></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="glass-panel p-4 rounded-xl flex items-center gap-4 relative overflow-hidden bg-gradient-to-tr from-cyber-blue/10 to-transparent">
+          <div className="p-3 bg-cyber-blue/20 rounded-xl text-cyber-blue">
+            <Sparkles className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Current Level</p>
+            <h4 className="text-sm font-bold text-white mt-0.5">
+              {solvedCount + completedCount < 40 ? 'Beginner Bridger' : solvedCount + completedCount < 100 ? 'Algorithms Cadet' : 'Master Competitive SDE'}
+            </h4>
+            <span className="text-[9px] text-slate-500">Solve sheets to raise your title!</span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Main split workarea */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        
+        {/* Left Column (2/3 width): Sheet and Editor Cheat Sheets */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Main DSA Curriculum Hub Card */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col gap-5">
             
-            <div className="glass-panel p-6 rounded-2xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-cyber-border pb-4 gap-3">
+              <div>
+                <h3 className="font-display font-extrabold text-white text-base">Curated DSA Curriculum Sheet</h3>
+                <p className="text-[10px] text-slate-400 mt-0.5">16 Core Phases covering coding interview patterns</p>
+              </div>
               
-              <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-4 mb-4 gap-3">
-                <div>
-                  <h3 className="font-display font-bold text-sm text-white">DSA Curriculum Sheet</h3>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Track your topic-wise mastery of coding interview patterns</p>
-                </div>
-                
-                {/* Topic selector */}
-                <div className="flex flex-wrap gap-1">
-                  {DSA_TOPICS.map((topic) => (
-                    <button
-                      key={topic.id}
-                      onClick={() => setActiveTopic(topic.id)}
-                      className={`px-3 py-1 rounded-lg text-[10px] font-semibold transition-all ${
-                        activeTopic === topic.id 
-                          ? 'bg-gradient-to-r from-cyber-purple to-cyber-pink text-white shadow-sm'
-                          : 'text-slate-400 hover:text-white bg-white/5'
-                      }`}
-                    >
-                      {topic.title}
-                    </button>
-                  ))}
-                </div>
+              {/* Dynamic search across all phases */}
+              <div className="relative w-full md:w-64">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search questions or phases..."
+                  className="w-full text-xs bg-white/5 border border-cyber-border rounded-lg py-2 pl-9 pr-3 focus:outline-none focus:border-cyber-purple/50 text-white font-medium"
+                />
+              </div>
+            </div>
+
+            {/* Split layout inside the card: Left topic sidebar, Right problem table */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-5 items-start">
+              
+              {/* Left sidebar: 16 Phases */}
+              <div className="md:col-span-1 flex flex-col gap-1 max-h-[55vh] overflow-y-auto pr-1">
+                {DSA_TOPICS.map(topic => (
+                  <button
+                    key={topic.id}
+                    onClick={() => {
+                      setActiveTopic(topic.id);
+                      setSearchTerm('');
+                    }}
+                    className={`px-3 py-2 rounded-lg text-left text-[10px] font-bold transition-all border-l-2 cursor-pointer ${
+                      activeTopic === topic.id && !searchTerm
+                        ? 'bg-gradient-to-r from-cyber-purple/15 to-cyber-pink/5 border-cyber-purple text-white'
+                        : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {topic.title}
+                  </button>
+                ))}
               </div>
 
-              {/* Filter controls inside panel */}
-              <div className="bg-white/2 p-3 rounded-xl border border-white/5 mb-4 flex flex-col gap-2.5">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mr-2">Level:</span>
-                  {['All', 'Beginner', 'Intermediate', 'Hard'].map((diff) => (
-                    <button
-                      key={diff}
-                      onClick={() => setDifficultyFilter(diff)}
-                      className={`px-2 py-0.5 rounded text-[9px] font-semibold border transition-all ${
-                        difficultyFilter === diff
-                          ? 'bg-cyber-cyan/20 border-cyber-cyan text-cyber-cyan'
-                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      {diff === 'Hard' ? 'Hard (Codeforces)' : diff}
-                    </button>
-                  ))}
+              {/* Right list: Problems display */}
+              <div className="md:col-span-3 flex flex-col gap-2.5 max-h-[55vh] overflow-y-auto pr-1">
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                  <span>{searchTerm ? `Search results for "${searchTerm}"` : activeTopicObj.title}</span>
+                  <span className="text-cyber-cyan">{displayProblems.length} Problems</span>
                 </div>
-                
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mr-2">Prep Mode:</span>
-                  {['All', 'Tier 1', 'Tier 2', 'Tier 3', 'Product-Based', 'Service-Based', 'SaaS-Based'].map((mode) => (
-                    <button
-                      key={mode}
-                      onClick={() => setPrepFilter(mode)}
-                      className={`px-2 py-0.5 rounded text-[9px] font-semibold border transition-all ${
-                        prepFilter === mode
-                          ? 'bg-cyber-purple/20 border-cyber-purple text-cyber-purple'
-                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      {mode}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
-              {/* Problems list */}
-              <div className="flex flex-col gap-2.5">
-                {filteredProblems.length === 0 ? (
+                {displayProblems.length === 0 ? (
                   <div className="p-8 text-center text-slate-500 text-xs bg-white/2 border border-white/5 rounded-xl">
-                    No problems match your active filter settings.
+                    No matching problems found.
                   </div>
                 ) : (
-                  filteredProblems.map((prob) => {
+                  displayProblems.map(prob => {
                     const isCompleted = !!completedProblems[prob.name];
                     return (
                       <div 
-                        key={prob.name} 
+                        key={prob.name}
                         className={`flex items-center justify-between p-3 border rounded-xl transition-all duration-300 ${
                           isCompleted 
                             ? 'bg-emerald-500/5 border-emerald-500/20' 
@@ -430,9 +689,9 @@ export default function DsaCodingHubPage() {
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <button 
+                          <button
                             onClick={() => toggleProblem(prob.name)}
-                            className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
+                            className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all cursor-pointer ${
                               isCompleted 
                                 ? 'bg-emerald-500 border-emerald-500 text-white' 
                                 : 'border-white/20 hover:border-cyber-purple/50 bg-white/5'
@@ -441,37 +700,49 @@ export default function DsaCodingHubPage() {
                             {isCompleted && <span className="text-[10px] font-bold">✓</span>}
                           </button>
                           <div>
-                            <span className={`text-xs font-semibold ${isCompleted ? 'text-slate-400 line-through' : 'text-white'}`}>
+                            <span className={`text-[12px] font-bold ${isCompleted ? 'text-slate-500 line-through' : 'text-white'}`}>
                               {prob.name}
                             </span>
-                            <div className="flex gap-2 items-center mt-0.5 flex-wrap">
-                              <span className="text-[8px] bg-white/5 border border-white/5 text-slate-400 px-1.5 py-0.2 rounded font-medium">
-                                {prob.platform}
-                              </span>
-                              <span className={`text-[8px] font-semibold uppercase tracking-wider ${
-                                prob.difficulty === 'Beginner' ? 'text-emerald-400' : prob.difficulty === 'Intermediate' ? 'text-amber-400' : 'text-red-400'
+                            {prob.phaseTitle && (
+                              <div className="text-[8px] text-cyber-pink font-bold uppercase mt-0.5">{prob.phaseTitle}</div>
+                            )}
+                            <div className="flex gap-2 items-center mt-1 flex-wrap">
+                              <span className={`text-[8.5px] font-bold uppercase tracking-wider ${
+                                prob.difficulty === 'Easy' ? 'text-emerald-400' : prob.difficulty === 'Medium' ? 'text-amber-400' : 'text-red-400'
                               }`}>
                                 {prob.difficulty}
                               </span>
-                              <span className="text-[8px] bg-cyber-purple/15 border border-cyber-purple/20 text-cyber-cyan px-1.5 py-0.2 rounded font-medium">
-                                {prob.tier}
-                              </span>
-                              <span className="text-[8px] bg-cyber-pink/15 border border-cyber-pink/20 text-cyber-pink px-1.5 py-0.2 rounded font-medium">
-                                {prob.companyType}
-                              </span>
+                              <span className="text-slate-500">•</span>
+                              <a 
+                                href={prob.practiceUrl} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="text-[8.5px] text-slate-400 hover:text-cyber-cyan flex items-center gap-0.5 font-semibold transition-colors"
+                              >
+                                <span>Practice Code</span>
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
+                              <span className="text-slate-500">•</span>
+                              <a 
+                                href={prob.conceptUrl} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="text-[8.5px] text-slate-400 hover:text-cyber-pink flex items-center gap-0.5 font-semibold transition-colors"
+                              >
+                                <span>Concept Resources</span>
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                          <Link 
-                            to={`/editor?question=${prob.path}`}
-                            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-cyber-purple/20 to-cyber-pink/20 hover:from-cyber-purple/35 hover:to-cyber-pink/35 border border-cyber-purple/30 rounded-lg text-[9px] text-white font-bold transition-all"
-                          >
-                            <Code2 className="w-3 h-3 text-cyber-pink" />
-                            <span>Solve in Editor</span>
-                          </Link>
-                        </div>
+                        <Link 
+                          to={`/editor?question=${prob.path}`}
+                          className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-cyber-purple/20 to-cyber-pink/20 hover:from-cyber-purple/35 hover:to-cyber-pink/35 border border-cyber-purple/30 rounded-lg text-[9px] text-white font-bold transition-all shrink-0"
+                        >
+                          <Code2 className="w-3 h-3 text-cyber-pink" />
+                          <span>Solve</span>
+                        </Link>
                       </div>
                     );
                   })
@@ -480,242 +751,210 @@ export default function DsaCodingHubPage() {
 
             </div>
 
-            {/* Placements & Video Coding Resources */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
-                <Youtube className="w-5 h-5 text-red-500" />
-                <h3 className="font-display font-bold text-sm text-white">Curated Lectures & Placements preparation</h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {LECTURES.map((lec) => (
-                  <a
-                    key={lec.title}
-                    href={lec.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex flex-col p-4 bg-white/3 border border-white/5 hover:border-red-500/30 rounded-xl transition-all group text-left"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">
-                        {lec.title}
-                      </span>
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
-                    </div>
-                    <span className="text-[9px] text-red-400 font-semibold mb-1">Channel: {lec.channel}</span>
-                    <p className="text-[10px] text-slate-400 leading-relaxed mb-3">
-                      {lec.desc}
-                    </p>
-                    <div className="flex gap-1.5 mt-auto">
-                      {lec.tags.map(t => (
-                        <span key={t} className="text-[8px] bg-red-500/10 border border-red-500/20 text-red-400 px-2 py-0.5 rounded font-bold">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Interactive Coding Cheat Sheet */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-                <div className="flex items-center gap-2">
-                  <Terminal className="w-5 h-5 text-cyber-purple" />
-                  <h3 className="font-display font-bold text-sm text-white">Algorithms Cheat Sheet</h3>
-                </div>
-                
-                {/* Language tabs */}
-                <div className="flex gap-1.5">
-                  {Object.keys(CHEAT_SHEETS).map((lang) => (
-                    <button
-                      key={lang}
-                      onClick={() => setActiveLang(lang)}
-                      className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all ${
-                        activeLang === lang 
-                          ? 'text-cyber-cyan border-b-2 border-cyber-cyan' 
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      {lang === 'cpp' ? 'C++' : lang}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="relative">
-                <pre className="p-4 bg-cyber-deep/80 border border-white/5 rounded-xl text-[10px] text-slate-300 overflow-x-auto max-h-64 font-mono leading-relaxed">
-                  <code>{CHEAT_SHEETS[activeLang]}</code>
-                </pre>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(CHEAT_SHEETS[activeLang]);
-                    confetti({ particleCount: 20, spread: 20, origin: { y: 0.8 } });
-                  }}
-                  className="absolute top-3 right-3 py-1 px-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[8px] font-bold text-white transition-all"
-                >
-                  Copy Template
-                </button>
-              </div>
-            </div>
-
           </div>
 
-          {/* Right Column: Profile Integrations & Sheets (1 span) */}
-          <div className="flex flex-col gap-6">
+          {/* Interactive Coding Sandbox Cheat Sheet */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5">
+            <div className="flex items-center justify-between border-b border-cyber-border pb-3 mb-4">
+              <div className="flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-cyber-purple" />
+                <h3 className="font-display font-extrabold text-white text-sm">Algorithms Cheat Sheet</h3>
+              </div>
+              
+              <div className="flex gap-1.5">
+                {Object.keys(CHEAT_SHEETS).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setActiveLang(lang)}
+                    className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all cursor-pointer ${
+                      activeLang === lang 
+                        ? 'text-cyber-cyan border-b-2 border-cyber-cyan' 
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {lang === 'cpp' ? 'C++' : lang}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            {/* Platform Profile Tracker */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
-                <User className="w-4 h-4 text-cyber-cyan" />
-                <h3 className="font-display font-bold text-white text-xs">Coding Platform Profiles</h3>
+            <div className="relative">
+              <pre className="p-4 bg-black/40 border border-white/5 rounded-xl text-[10px] text-slate-300 overflow-x-auto max-h-64 font-mono leading-relaxed">
+                <code>{CHEAT_SHEETS[activeLang]}</code>
+              </pre>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(CHEAT_SHEETS[activeLang]);
+                  confetti({ particleCount: 20, spread: 20, origin: { y: 0.8 } });
+                }}
+                className="absolute top-3 right-3 py-1 px-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[8px] font-bold text-white transition-all cursor-pointer"
+              >
+                Copy Template
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Column (1/3 width): Profiles, Counselor Mentors, sheets */}
+        <div className="space-y-6">
+          
+          {/* Platform Profiles */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-2 mb-4 border-b border-cyber-border pb-3">
+              <User className="w-4 h-4 text-cyber-cyan" />
+              <h3 className="font-display font-extrabold text-white text-xs">Coding Platform Profiles</h3>
+            </div>
+
+            {savedSuccess && (
+              <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg p-2 text-[10px] mb-4 text-center font-medium">
+                Stats saved successfully!
+              </div>
+            )}
+
+            <form onSubmit={handleSaveProfile} className="flex flex-col gap-4">
+              
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-slate-400 font-semibold">Total Platforms Solved Count</label>
+                <input
+                  type="number"
+                  value={solvedInput}
+                  onChange={(e) => setSolvedInput(e.target.value)}
+                  className="glass-input p-2.5 text-xs"
+                  placeholder="e.g. 142"
+                />
               </div>
 
-              {savedSuccess && (
-                <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg p-2 text-[10px] mb-4 text-center font-medium">
-                  Profile data saved successfully!
-                </div>
-              )}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-slate-400 font-semibold">LeetCode Username</label>
+                <input
+                  type="text"
+                  value={leetcodeUser}
+                  onChange={(e) => setLeetcodeUser(e.target.value)}
+                  className="glass-input p-2.5 text-xs"
+                  placeholder="leetcode_handle"
+                />
+              </div>
 
-              <form onSubmit={handleSaveProfile} className="flex flex-col gap-4">
-                
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] text-slate-400 font-semibold">Total Platforms Solved Count</label>
-                  <input
-                    type="number"
-                    value={solvedInput}
-                    onChange={(e) => setSolvedInput(e.target.value)}
-                    className="glass-input p-2.5 text-xs"
-                    placeholder="e.g. 142"
-                  />
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-slate-400 font-semibold">Codeforces Handle</label>
+                <input
+                  type="text"
+                  value={cfUser}
+                  onChange={(e) => setCfUser(e.target.value)}
+                  className="glass-input p-2.5 text-xs"
+                  placeholder="cf_handle"
+                />
+              </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] text-slate-400 font-semibold">LeetCode Username</label>
-                  <input
-                    type="text"
-                    value={leetcodeUser}
-                    onChange={(e) => setLeetcodeUser(e.target.value)}
-                    className="glass-input p-2.5 text-xs"
-                    placeholder="leetcode_handle"
-                  />
-                </div>
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-pink font-bold text-xs text-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow-purple cursor-pointer"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Save Profile Stats</span>
+              </button>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] text-slate-400 font-semibold">Codeforces Handle</label>
-                  <input
-                    type="text"
-                    value={cfUser}
-                    onChange={(e) => setCfUser(e.target.value)}
-                    className="glass-input p-2.5 text-xs"
-                    placeholder="cf_handle"
-                  />
-                </div>
+            </form>
+          </div>
 
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-pink font-bold text-xs text-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow-purple"
+          {/* Mentors & Career Counselors (Rich Indian & Global Directory) */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col gap-4">
+            <div className="flex items-center gap-2 border-b border-cyber-border pb-3">
+              <Linkedin className="w-4 h-4 text-cyber-blue" />
+              <h3 className="font-display font-extrabold text-white text-xs">Mentors & Counselors</h3>
+            </div>
+
+            {/* Scrollable list of counselor directory */}
+            <div className="flex flex-col gap-3 max-h-[45vh] overflow-y-auto pr-1">
+              {MENTORS_DIRECTORY.map((mentor) => (
+                <a
+                  key={mentor.name}
+                  href={mentor.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-blue/40 rounded-xl transition-all group text-left relative overflow-hidden"
                 >
-                  <Save className="w-3.5 h-3.5" />
-                  <span>Save Profile Stats</span>
-                </button>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-white group-hover:text-cyber-blue transition-colors">
+                      {mentor.name}
+                    </span>
+                    <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-white transition-colors" />
+                  </div>
+                  <span className="text-[8.5px] text-cyber-blue font-bold uppercase mt-0.5 tracking-wider">{mentor.role}</span>
+                  <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                    {mentor.desc}
+                  </p>
+                  <span className={`text-[7px] font-extrabold absolute bottom-2 right-2 px-1 rounded uppercase ${
+                    mentor.origin === 'India' ? 'bg-orange-500/10 text-orange-400' : 'bg-cyber-cyan/15 text-cyber-cyan'
+                  }`}>
+                    {mentor.origin}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
 
-              </form>
+          {/* Quick Access DSA sheets */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-2 mb-4 border-b border-cyber-border pb-3">
+              <BookOpen className="w-4 h-4 text-cyber-pink" />
+              <h3 className="font-display font-extrabold text-white text-xs">DSA Standard Sheets</h3>
             </div>
 
-            {/* LinkedIn Tech Influencers */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
-                <Linkedin className="w-4 h-4 text-cyber-blue" />
-                <h3 className="font-display font-bold text-white text-xs">LinkedIn Placements Guides</h3>
-              </div>
+            <div className="flex flex-col gap-3">
+              {DSA_SHEETS.map((sheet) => (
+                <a
+                  key={sheet.name}
+                  href={sheet.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-pink/40 rounded-xl transition-all group text-left"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-white group-hover:text-cyber-pink transition-colors">
+                      {sheet.name}
+                    </span>
+                    <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-white transition-colors" />
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+                    {sheet.description}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
 
-              <div className="flex flex-col gap-3">
-                {INFLUENCERS.map((inf) => (
-                  <a
-                    key={inf.name}
-                    href={inf.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-blue/40 rounded-xl transition-all group text-left"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-white group-hover:text-cyber-blue transition-colors">
-                        {inf.name}
-                      </span>
-                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-white transition-colors" />
-                    </div>
-                    <span className="text-[9px] text-cyber-blue font-medium mt-0.5">{inf.role}</span>
-                    <p className="text-[10px] text-slate-400 mt-1 leading-normal">
-                      {inf.desc}
-                    </p>
-                  </a>
-                ))}
-              </div>
+          {/* Competitive Platform Shortcuts */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-2 mb-4 border-b border-cyber-border pb-3">
+              <Code2 className="w-4 h-4 text-cyber-purple" />
+              <h3 className="font-display font-extrabold text-white text-xs">Competitive Shortcuts</h3>
             </div>
 
-            {/* Quick Access Sheets */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
-                <BookOpen className="w-4 h-4 text-cyber-pink" />
-                <h3 className="font-display font-bold text-white text-xs">Standard DSA Study Sheets</h3>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                {DSA_SHEETS.map((sheet) => (
-                  <a
-                    key={sheet.name}
-                    href={sheet.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex flex-col p-3 bg-white/3 border border-white/5 hover:border-cyber-pink/40 rounded-xl transition-all group text-left"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-white group-hover:text-cyber-pink transition-colors">
-                        {sheet.name}
-                      </span>
-                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-white transition-colors" />
-                    </div>
-                    <p className="text-[10px] text-slate-400 mt-1 leading-normal">
-                      {sheet.description}
-                    </p>
-                  </a>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 gap-2.5">
+              {PLATFORMS.map((plat) => (
+                <a
+                  key={plat.name}
+                  href={plat.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex items-center justify-between p-3 rounded-xl bg-gradient-to-r border border-white/5 hover:border-white/10 transition-all ${plat.color} text-left`}
+                >
+                  <div>
+                    <span className={`text-xs font-bold ${plat.textColor}`}>{plat.name}</span>
+                    <p className="text-[9px] text-slate-400 leading-normal mt-0.5">{plat.desc}</p>
+                  </div>
+                  <ExternalLink className="w-3 h-3 text-slate-400 hover:text-white" />
+                </a>
+              ))}
             </div>
-
-            {/* Platform Shortcuts */}
-            <div className="glass-panel p-6 rounded-2xl">
-              <div className="flex items-center gap-2 mb-4 border-b border-white/5 pb-3">
-                <Code2 className="w-4 h-4 text-cyber-purple" />
-                <h3 className="font-display font-bold text-white text-xs">Competitive Platform Shortcuts</h3>
-              </div>
-
-              <div className="grid grid-cols-1 gap-2.5">
-                {PLATFORMS.map((plat) => (
-                  <a
-                    key={plat.name}
-                    href={plat.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`flex items-center justify-between p-3 rounded-xl bg-gradient-to-r border border-white/5 hover:border-white/10 transition-all ${plat.color} text-left`}
-                  >
-                    <div>
-                      <span className={`text-xs font-bold ${plat.textColor}`}>{plat.name}</span>
-                      <p className="text-[9px] text-slate-400 leading-normal mt-0.5">{plat.desc}</p>
-                    </div>
-                    <ExternalLink className="w-3 h-3 text-slate-400 hover:text-white" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
           </div>
 
         </div>
 
       </div>
+
     </div>
   );
 }
