@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginStart, loginSuccess, loginFailure } from '../redux/slices/authSlice';
+import { loginStart, loginSuccess, loginFailure, clearError } from '../redux/slices/authSlice';
 import { AuthAPI } from '../services/api';
-import { Waypoints, Key, User, ArrowRight } from 'lucide-react';
+import { Waypoints, Key, User, ArrowRight, AlertCircle, X } from 'lucide-react';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -48,9 +48,39 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Error Popup Modal */}
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg p-3 text-xs mb-4 text-center font-medium">
-            {error}
+          <div className="fixed inset-0 bg-[#03001e]/60 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
+            <div className="max-w-sm w-full glass-panel border-l-4 border-red-500 rounded-2xl p-6 relative flex flex-col items-center text-center shadow-glow-purple animate-float">
+              
+              <button 
+                onClick={() => dispatch(clearError())}
+                type="button"
+                className="absolute top-3 right-3 text-slate-400 hover:text-white hover:bg-white/5 p-1.5 rounded-lg transition-all"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="p-3 bg-red-500/10 rounded-full text-red-500 mb-4 border border-red-500/20">
+                <AlertCircle className="w-8 h-8 animate-pulse" />
+              </div>
+
+              <h3 className="font-display font-bold text-base text-white mb-2">
+                Authentication Failed
+              </h3>
+              
+              <p className="text-slate-300 text-xs leading-relaxed mb-6">
+                {error}
+              </p>
+
+              <button
+                onClick={() => dispatch(clearError())}
+                type="button"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold text-xs text-white shadow-glow-purple hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                Try Again
+              </button>
+            </div>
           </div>
         )}
 

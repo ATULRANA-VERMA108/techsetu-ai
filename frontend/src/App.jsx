@@ -11,6 +11,9 @@ import SkillAnalyzerPage from './pages/SkillAnalyzerPage.jsx';
 import RoadmapPage from './pages/RoadmapPage.jsx';
 import MockInterviewPage from './pages/MockInterviewPage.jsx';
 import ResumeOptimizerPage from './pages/ResumeOptimizerPage.jsx';
+import ProjectHubPage from './pages/ProjectHubPage.jsx';
+import AiPlaygroundPage from './pages/AiPlaygroundPage.jsx';
+import DsaCodingHubPage from './pages/DsaCodingHubPage.jsx';
 
 // Common Layout components
 import Sidebar from './components/common/Sidebar.jsx';
@@ -48,6 +51,24 @@ export default function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <AppLayout><DashboardPage /></AppLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/dsa" element={
+          <ProtectedRoute>
+            <AppLayout><DsaCodingHubPage /></AppLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/workspace" element={
+          <ProtectedRoute>
+            <AppLayout><ProjectHubPage /></AppLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/ai" element={
+          <ProtectedRoute>
+            <AppLayout><AiPlaygroundPage /></AppLayout>
           </ProtectedRoute>
         } />
         

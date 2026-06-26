@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice';
 import { 
   LayoutDashboard, 
+  Trophy,
   Compass, 
   Map, 
   MessageSquareCode, 
@@ -26,6 +27,7 @@ export default function Sidebar() {
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'DSA & Coding Hub', path: '/dsa', icon: Trophy },
     { name: 'Skill Analyzer', path: '/analyzer', icon: Compass },
     { name: 'Roadmap Generator', path: '/roadmap', icon: Map },
     { name: 'Project Workspace', path: '/workspace', icon: Layers },

@@ -57,8 +57,20 @@ export const AuthAPI = {
   login: async (username, password) => {
     try {
       const res = await api.post('/auth/signin', { username, password });
-      return res.data;
+      const data = res.data;
+      const userObj = {
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        targetRole: data.targetRole || null,
+        bridgeScore: data.bridgeScore || 0,
+        roles: data.roles || ["ROLE_USER"]
+      };
+      return { token: data.token, user: userObj };
     } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Invalid username or password");
+      }
       // Offline fallback
       await SIMULATE_DELAY();
       const mockUsers = getLocalData('mock_users', {});
@@ -74,7 +86,7 @@ export const AuthAPI = {
         };
         return { token, user: userObj };
       }
-      throw new Error("Invalid username or password (offline mock check failed)");
+      throw new Error("Invalid username or password");
     }
   },
 
@@ -83,6 +95,9 @@ export const AuthAPI = {
       const res = await api.post('/auth/signup', { username, email, password });
       return res.data;
     } catch (e) {
+      if (e.response && e.response.data) {
+        throw new Error(e.response.data.message || "Registration failed");
+      }
       await SIMULATE_DELAY();
       const mockUsers = getLocalData('mock_users', {});
       if (mockUsers[username]) {

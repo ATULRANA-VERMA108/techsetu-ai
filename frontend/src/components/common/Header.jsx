@@ -3,13 +3,15 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Target, ShieldAlert, ShieldCheck } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+
 export default function Header({ title }) {
   const { user } = useSelector(state => state.auth);
   const [backendOnline, setBackendOnline] = useState(false);
 
   useEffect(() => {
     // Health check ping to verify API connectivity
-    axios.get('/api/status')
+    axios.get(`${API_BASE}/status`)
       .then(() => setBackendOnline(true))
       .catch(() => setBackendOnline(false));
   }, []);
