@@ -109,17 +109,30 @@ export default function DashboardPage() {
           Access your personal career bridge. Run skill gap analyses, check learning roadmaps, manage project tasks, or talk to the AI Sandbox.
         </p>
         {!user?.targetRole ? (
-          <Link 
-            to="/analyzer" 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-pink font-bold text-xs text-white"
-          >
-            <span>Analyze Your Skill Gaps</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex gap-3">
+            <Link 
+              to="/analyzer" 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-pink font-bold text-xs text-white"
+            >
+              <span>Analyze Your Skill Gaps</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link 
+              to="/nontech" 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 font-bold text-xs text-slate-300 hover:text-white hover:bg-white/10"
+            >
+              <span>Non-Tech Career Hub</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         ) : (
           <div className="flex gap-4 text-xs font-semibold text-cyber-cyan hover:underline">
-            <Link to="/roadmap" className="flex items-center gap-1">
+            <Link to="/roadmap" className="flex items-center gap-1 mr-4">
               <span>View Learning Roadmap</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link to="/nontech" className="flex items-center gap-1">
+              <span>Non-Tech Career Hub</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

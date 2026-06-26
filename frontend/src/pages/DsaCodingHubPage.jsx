@@ -51,61 +51,71 @@ const DSA_TOPICS = [
     id: "arrays",
     title: "Arrays & Hashing",
     problems: [
-      { name: "Two Sum", difficulty: "Easy", path: "two-sum", platform: "LeetCode" },
-      { name: "Contains Duplicate", difficulty: "Easy", path: "contains-duplicate", platform: "LeetCode" },
-      { name: "Valid Anagram", difficulty: "Easy", path: "valid-anagram", platform: "LeetCode" },
-      { name: "Group Anagrams", difficulty: "Medium", path: "group-anagrams", platform: "LeetCode" },
-      { name: "Top K Frequent Elements", difficulty: "Medium", path: "top-k-frequent-elements", platform: "LeetCode" }
+      { name: "Two Sum", difficulty: "Beginner", path: "two-sum", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Contains Duplicate", difficulty: "Beginner", path: "contains-duplicate", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Valid Anagram", difficulty: "Beginner", path: "valid-anagram", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Group Anagrams", difficulty: "Intermediate", path: "group-anagrams", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
+      { name: "Top K Frequent Elements", difficulty: "Intermediate", path: "top-k-frequent-elements", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
     ]
   },
   {
     id: "two-pointers",
     title: "Two Pointers & Sliding Window",
     problems: [
-      { name: "Valid Palindrome", difficulty: "Easy", path: "valid-palindrome", platform: "LeetCode" },
-      { name: "Container With Most Water", difficulty: "Medium", path: "container-with-most-water", platform: "LeetCode" },
-      { name: "Best Time to Buy and Sell Stock", difficulty: "Easy", path: "best-time-to-buy-and-sell-stock", platform: "LeetCode" },
-      { name: "Longest Substring Without Repeating Characters", difficulty: "Medium", path: "longest-substring-without-repeating-characters", platform: "LeetCode" }
+      { name: "Valid Palindrome", difficulty: "Beginner", path: "valid-palindrome", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Container With Most Water", difficulty: "Intermediate", path: "container-with-most-water", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Best Time to Buy and Sell Stock", difficulty: "Beginner", path: "best-time-to-buy-and-sell-stock", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Longest Substring Without Repeating Characters", difficulty: "Intermediate", path: "longest-substring-without-repeating-characters", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" }
     ]
   },
   {
     id: "linked-lists",
     title: "Linked Lists",
     problems: [
-      { name: "Reverse Linked List", difficulty: "Easy", path: "reverse-linked-list", platform: "LeetCode" },
-      { name: "Merge Two Sorted Lists", difficulty: "Easy", path: "merge-two-sorted-lists", platform: "LeetCode" },
-      { name: "Linked List Cycle", difficulty: "Easy", path: "linked-list-cycle", platform: "LeetCode" },
-      { name: "Remove Nth Node From End of List", difficulty: "Medium", path: "remove-nth-node-from-end-of-list", platform: "LeetCode" }
+      { name: "Reverse Linked List", difficulty: "Beginner", path: "reverse-linked-list", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Merge Two Sorted Lists", difficulty: "Beginner", path: "merge-two-sorted-lists", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Linked List Cycle", difficulty: "Beginner", path: "linked-list-cycle", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
+      { name: "Remove Nth Node From End of List", difficulty: "Intermediate", path: "remove-nth-node-from-end-of-list", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
     ]
   },
   {
     id: "trees-graphs",
     title: "Trees & Graphs",
     problems: [
-      { name: "Invert Binary Tree", difficulty: "Easy", path: "invert-binary-tree", platform: "LeetCode" },
-      { name: "Maximum Depth of Binary Tree", difficulty: "Easy", path: "maximum-depth-of-binary-tree", platform: "LeetCode" },
-      { name: "Number of Islands", difficulty: "Medium", path: "number-of-islands", platform: "LeetCode" },
-      { name: "Clone Graph", difficulty: "Medium", path: "clone-graph", platform: "LeetCode" }
+      { name: "Invert Binary Tree", difficulty: "Beginner", path: "invert-binary-tree", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Maximum Depth of Binary Tree", difficulty: "Beginner", path: "maximum-depth-of-binary-tree", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Number of Islands", difficulty: "Intermediate", path: "number-of-islands", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Clone Graph", difficulty: "Intermediate", path: "clone-graph", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" }
     ]
   },
   {
     id: "dp-greedy",
     title: "Dynamic Programming & Greedy",
     problems: [
-      { name: "Climbing Stairs", difficulty: "Easy", path: "climbing-stairs", platform: "LeetCode" },
-      { name: "Coin Change", difficulty: "Medium", path: "coin-change", platform: "LeetCode" },
-      { name: "Longest Common Subsequence", difficulty: "Medium", path: "longest-common-subsequence", platform: "LeetCode" },
-      { name: "Jump Game", difficulty: "Medium", path: "jump-game", platform: "LeetCode" }
+      { name: "Climbing Stairs", difficulty: "Beginner", path: "climbing-stairs", platform: "LeetCode", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Coin Change", difficulty: "Intermediate", path: "coin-change", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Longest Common Subsequence", difficulty: "Intermediate", path: "longest-common-subsequence", platform: "LeetCode", tier: "Tier 2", companyType: "SaaS-Based" },
+      { name: "Jump Game", difficulty: "Intermediate", path: "jump-game", platform: "LeetCode", tier: "Tier 1", companyType: "Product-Based" }
     ]
   },
   {
     id: "system-design",
     title: "System Design Patterns",
     problems: [
-      { name: "Design a Rate Limiter", difficulty: "Medium", path: "design-rate-limiter", platform: "SystemDesign" },
-      { name: "Design Twitter / X Feed", difficulty: "Hard", path: "design-twitter", platform: "SystemDesign" },
-      { name: "Design a URL Shortener", difficulty: "Easy", path: "design-url-shortener", platform: "SystemDesign" },
-      { name: "Design a Chat System", difficulty: "Hard", path: "design-chat-system", platform: "SystemDesign" }
+      { name: "Design a Rate Limiter", difficulty: "Intermediate", path: "design-rate-limiter", platform: "SystemDesign", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Design Twitter / X Feed", difficulty: "Hard", path: "design-twitter", platform: "SystemDesign", tier: "Tier 2", companyType: "SaaS-Based" },
+      { name: "Design a URL Shortener", difficulty: "Beginner", path: "design-url-shortener", platform: "SystemDesign", tier: "Tier 3", companyType: "Service-Based" },
+      { name: "Design a Chat System", difficulty: "Hard", path: "design-chat-system", platform: "SystemDesign", tier: "Tier 2", companyType: "SaaS-Based" }
+    ]
+  },
+  {
+    id: "codeforces",
+    title: "Codeforces (Hard)",
+    problems: [
+      { name: "Maximum Segment Sum", difficulty: "Hard", path: "max-segment-sum", platform: "Codeforces", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Shortest Path in Weighted Tree", difficulty: "Hard", path: "shortest-path-tree", platform: "Codeforces", tier: "Tier 1", companyType: "Product-Based" },
+      { name: "Maximum XOR Subarray", difficulty: "Hard", path: "max-xor-subarray", platform: "Codeforces", tier: "Tier 2", companyType: "SaaS-Based" },
+      { name: "Graph Connectivity Cycles", difficulty: "Hard", path: "graph-connectivity", platform: "Codeforces", tier: "Tier 2", companyType: "SaaS-Based" }
     ]
   }
 ];
@@ -220,6 +230,15 @@ export default function DsaCodingHubPage() {
   const [activeTopic, setActiveTopic] = useState('arrays');
   const [activeLang, setActiveLang] = useState('cpp');
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [difficultyFilter, setDifficultyFilter] = useState('All');
+  const [prepFilter, setPrepFilter] = useState('All');
+
+  const activeTopicProblems = DSA_TOPICS.find(t => t.id === activeTopic)?.problems || [];
+  const filteredProblems = activeTopicProblems.filter(prob => {
+    const matchesDiff = difficultyFilter === 'All' || prob.difficulty === difficultyFilter;
+    const matchesPrep = prepFilter === 'All' || prob.tier === prepFilter || prob.companyType === prepFilter;
+    return matchesDiff && matchesPrep;
+  });
 
   // Sync statistics
   const totalProblems = DSA_TOPICS.reduce((acc, topic) => acc + topic.problems.length, 0);
@@ -355,59 +374,108 @@ export default function DsaCodingHubPage() {
                 </div>
               </div>
 
-              {/* Problems list */}
-              <div className="flex flex-col gap-2.5">
-                {DSA_TOPICS.find(t => t.id === activeTopic)?.problems.map((prob) => {
-                  const isCompleted = !!completedProblems[prob.name];
-                  return (
-                    <div 
-                      key={prob.name} 
-                      className={`flex items-center justify-between p-3 border rounded-xl transition-all duration-300 ${
-                        isCompleted 
-                          ? 'bg-emerald-500/5 border-emerald-500/20' 
-                          : 'bg-white/3 border-white/5 hover:border-white/10'
+              {/* Filter controls inside panel */}
+              <div className="bg-white/2 p-3 rounded-xl border border-white/5 mb-4 flex flex-col gap-2.5">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mr-2">Level:</span>
+                  {['All', 'Beginner', 'Intermediate', 'Hard'].map((diff) => (
+                    <button
+                      key={diff}
+                      onClick={() => setDifficultyFilter(diff)}
+                      className={`px-2 py-0.5 rounded text-[9px] font-semibold border transition-all ${
+                        difficultyFilter === diff
+                          ? 'bg-cyber-cyan/20 border-cyber-cyan text-cyber-cyan'
+                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <button 
-                          onClick={() => toggleProblem(prob.name)}
-                          className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
-                            isCompleted 
-                              ? 'bg-emerald-500 border-emerald-500 text-white' 
-                              : 'border-white/20 hover:border-cyber-purple/50 bg-white/5'
-                          }`}
-                        >
-                          {isCompleted && <span className="text-[10px] font-bold">✓</span>}
-                        </button>
-                        <div>
-                          <span className={`text-xs font-semibold ${isCompleted ? 'text-slate-400 line-through' : 'text-white'}`}>
-                            {prob.name}
-                          </span>
-                          <div className="flex gap-2 items-center mt-0.5">
-                            <span className="text-[8px] bg-white/5 border border-white/5 text-slate-400 px-1.5 py-0.2 rounded font-medium">
-                              {prob.platform}
+                      {diff === 'Hard' ? 'Hard (Codeforces)' : diff}
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mr-2">Prep Mode:</span>
+                  {['All', 'Tier 1', 'Tier 2', 'Tier 3', 'Product-Based', 'Service-Based', 'SaaS-Based'].map((mode) => (
+                    <button
+                      key={mode}
+                      onClick={() => setPrepFilter(mode)}
+                      className={`px-2 py-0.5 rounded text-[9px] font-semibold border transition-all ${
+                        prepFilter === mode
+                          ? 'bg-cyber-purple/20 border-cyber-purple text-cyber-purple'
+                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {mode}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Problems list */}
+              <div className="flex flex-col gap-2.5">
+                {filteredProblems.length === 0 ? (
+                  <div className="p-8 text-center text-slate-500 text-xs bg-white/2 border border-white/5 rounded-xl">
+                    No problems match your active filter settings.
+                  </div>
+                ) : (
+                  filteredProblems.map((prob) => {
+                    const isCompleted = !!completedProblems[prob.name];
+                    return (
+                      <div 
+                        key={prob.name} 
+                        className={`flex items-center justify-between p-3 border rounded-xl transition-all duration-300 ${
+                          isCompleted 
+                            ? 'bg-emerald-500/5 border-emerald-500/20' 
+                            : 'bg-white/3 border-white/5 hover:border-white/10'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <button 
+                            onClick={() => toggleProblem(prob.name)}
+                            className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
+                              isCompleted 
+                                ? 'bg-emerald-500 border-emerald-500 text-white' 
+                                : 'border-white/20 hover:border-cyber-purple/50 bg-white/5'
+                            }`}
+                          >
+                            {isCompleted && <span className="text-[10px] font-bold">✓</span>}
+                          </button>
+                          <div>
+                            <span className={`text-xs font-semibold ${isCompleted ? 'text-slate-400 line-through' : 'text-white'}`}>
+                              {prob.name}
                             </span>
-                            <span className={`text-[8px] font-semibold uppercase tracking-wider ${
-                              prob.difficulty === 'Easy' ? 'text-emerald-400' : prob.difficulty === 'Medium' ? 'text-amber-400' : 'text-red-400'
-                            }`}>
-                              {prob.difficulty}
-                            </span>
+                            <div className="flex gap-2 items-center mt-0.5 flex-wrap">
+                              <span className="text-[8px] bg-white/5 border border-white/5 text-slate-400 px-1.5 py-0.2 rounded font-medium">
+                                {prob.platform}
+                              </span>
+                              <span className={`text-[8px] font-semibold uppercase tracking-wider ${
+                                prob.difficulty === 'Beginner' ? 'text-emerald-400' : prob.difficulty === 'Intermediate' ? 'text-amber-400' : 'text-red-400'
+                              }`}>
+                                {prob.difficulty}
+                              </span>
+                              <span className="text-[8px] bg-cyber-purple/15 border border-cyber-purple/20 text-cyber-cyan px-1.5 py-0.2 rounded font-medium">
+                                {prob.tier}
+                              </span>
+                              <span className="text-[8px] bg-cyber-pink/15 border border-cyber-pink/20 text-cyber-pink px-1.5 py-0.2 rounded font-medium">
+                                {prob.companyType}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-center gap-3">
-                        <Link 
-                          to={`/editor?question=${prob.path}`}
-                          className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-cyber-purple/20 to-cyber-pink/20 hover:from-cyber-purple/35 hover:to-cyber-pink/35 border border-cyber-purple/30 rounded-lg text-[9px] text-white font-bold transition-all"
-                        >
-                          <Code2 className="w-3 h-3 text-cyber-pink" />
-                          <span>Solve in Editor</span>
-                        </Link>
+                        <div className="flex items-center gap-3">
+                          <Link 
+                            to={`/editor?question=${prob.path}`}
+                            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-cyber-purple/20 to-cyber-pink/20 hover:from-cyber-purple/35 hover:to-cyber-pink/35 border border-cyber-purple/30 rounded-lg text-[9px] text-white font-bold transition-all"
+                          >
+                            <Code2 className="w-3 h-3 text-cyber-pink" />
+                            <span>Solve in Editor</span>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
             </div>

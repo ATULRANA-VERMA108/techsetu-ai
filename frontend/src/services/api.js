@@ -5,6 +5,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE,
+  timeout: 1500,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,7 +25,7 @@ api.interceptors.request.use((config) => {
 // ----------------------------------------------------
 // DUAL-MODE LOGIC & SIMULATED DATABASE
 // ----------------------------------------------------
-const SIMULATE_DELAY = () => new Promise(resolve => setTimeout(resolve, 800));
+const SIMULATE_DELAY = () => new Promise(resolve => setTimeout(resolve, 200));
 
 // Local database mapping stored in localStorage to mock backend actions if offline
 const getLocalData = (key, defaultVal) => {
@@ -787,6 +788,63 @@ export const QuestionAPI = {
     } catch (e) {
       await SIMULATE_DELAY();
       return { explanation: "Concept explanation simulation: This problem focuses on optimizing space/time bounds by utilizing maps or two pointers. Ideal time complexity is O(N) using a HashMap." };
+    }
+  }
+};
+
+export const NonTechAPI = {
+  analyze: async (role, skills) => {
+    try {
+      const res = await api.post('/nontech/analyze', { role, skills });
+      return typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+    } catch (e) {
+      await SIMULATE_DELAY();
+      const mockOutlooks = {
+        "UI/UX Designer": {
+          outlook: { salary: "$85,000 - $130,000", growth: "16% (Much faster than average)", demand: "High (Design-centric SaaS products)" },
+          roadmap: [
+            { step: "1. Design Fundamentals", details: "Color theory, typography, spacing, visual hierarchy." },
+            { step: "2. Tool Proficiency", details: "Figma (components, autolayout, prototyping), Adobe XD." },
+            { step: "3. User Research & Wireframing", details: "User personas, user journeys, low/high-fidelity wireframes." },
+            { step: "4. Portfolio Building", details: "Create 3 detailed case studies solving real-world design problems." }
+          ],
+          platforms: ["Coursera (Google UX Design)", "Interaction Design Foundation (IxDF)", "YouTube (UX Collective)"],
+          projects: [
+            { title: "E-Commerce Checkout Redesign", desc: "Redesign the checkout flow of a popular app to reduce cart abandonment.", steps: "Conduct user surveys, build Figma prototype, perform A/B testing mockups." },
+            { title: "SaaS Analytics Dashboard", desc: "Design a clean dark-mode dashboard displaying complex data streams.", steps: "Define info architecture, design grid layouts, establish a components system." }
+          ]
+        },
+        "CRM Analyst": {
+          outlook: { salary: "$75,000 - $110,000", growth: "12% (Faster than average)", demand: "Steady (Customer data integration)" },
+          roadmap: [
+            { step: "1. CRM Platforms", details: "Salesforce Admin basics, Hubspot, Dynamics 365." },
+            { step: "2. Data Analytics & Excel", details: "Pivot tables, VLOOKUP, SQL query basics, PowerBI." },
+            { step: "3. Business Process Mapping", details: "Lead pipelines, customer journeys, marketing automation rules." },
+            { step: "4. Integration & Reporting", details: "Connecting CRM tools with email lists, setting up analytics dashboards." }
+          ],
+          platforms: ["Salesforce Trailhead (Admin Trail)", "Udemy (SQL and CRM Analytics)", "HubSpot Academy"],
+          projects: [
+            { title: "Sales Pipeline Optimization", desc: "Audit and restructure a CRM pipeline to automate email nudges.", steps: "Map stages, set automation rules, build sales conversion report." },
+            { title: "Customer Churn Analysis", desc: "Extract customer interaction records to identify churn patterns.", steps: "Group customers, perform cohort analysis in Excel, present recommendations." }
+          ]
+        },
+        "Data Analyst": {
+          outlook: { salary: "$70,000 - $115,000", growth: "25% (Extremely fast)", demand: "Very High (Data-driven decision making)" },
+          roadmap: [
+            { step: "1. Spreadsheet Master", details: "Advanced Excel formulas, pivot tables, data cleaning." },
+            { step: "2. SQL Fundamentals", details: "Joins, aggregations, subqueries, group by statements." },
+            { step: "3. Data Visualization", details: "Tableau, PowerBI, or Seaborn/Matplotlib in Python." },
+            { step: "4. Basic Programming (Python/R)", details: "Pandas, NumPy, Jupyter Notebooks for data analysis." }
+          ],
+          platforms: ["Kaggle Courses", "Google Data Analytics Professional Certificate", "DataCamp"],
+          projects: [
+            { title: "Sales & Profitability Dashboard", desc: "Build an interactive Tableau dashboard visualizing quarterly sales KPIs.", steps: "Clean transaction history, build maps and charts, publish to Tableau Public." },
+            { title: "Customer Segmentation Notebook", desc: "Write a Python script segmenting customers based on purchasing frequency.", steps: "Use RFM (Recency, Frequency, Monetary) analysis, write pandas commands, plot distributions." }
+          ]
+        }
+      };
+      const matched = mockOutlooks[role] || mockOutlooks["UI/UX Designer"];
+      return matched;
     }
   }
 };

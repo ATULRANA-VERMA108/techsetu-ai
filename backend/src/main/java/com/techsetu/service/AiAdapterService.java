@@ -340,4 +340,98 @@ public class AiAdapterService {
                 "1. Study spring security filter hierarchies and JWT token expirations.\n" +
                 "2. Try explaining concepts using real-world projects or metrics instead of abstract terms.";
     }
+
+    /**
+     * Analyzes non-tech career roles and generates insights.
+     */
+    public String analyzeNonTechRole(String role, String skills) {
+        if (hasApiKey()) {
+            try {
+                return callGemini(
+                    "You are an expert career transition coach for non-technical professionals entering the tech industry. Analyze the role. Respond ONLY with a valid JSON block containing: 'outlook' (object with 'salary' (string), 'growth' (string), 'demand' (string)), 'roadmap' (array of objects with 'step' (string) and 'details' (string)), 'platforms' (array of strings), and 'projects' (array of objects with 'title' (string), 'desc' (string), and 'steps' (string)). Do not include markdown tags like ```json or ```.",
+                    "Target non-tech role: '" + role + "' Skills or resume: '" + skills + "'"
+                );
+            } catch (Exception e) {
+                logger.error("Error calling Gemini API for non-tech analysis: {}. Falling back to simulation.", e.getMessage());
+            }
+        }
+        return getSimulatedNonTechAnalysis(role, skills);
+    }
+
+    private String getSimulatedNonTechAnalysis(String role, String skills) {
+        String roleLower = role.toLowerCase();
+        Map<String, Object> response = new HashMap<>();
+        
+        Map<String, String> outlook = new HashMap<>();
+        List<Map<String, String>> roadmap = new ArrayList<>();
+        List<String> platforms = new ArrayList<>();
+        List<Map<String, String>> projects = new ArrayList<>();
+
+        if (roleLower.contains("ui") || roleLower.contains("ux") || roleLower.contains("design")) {
+            outlook.put("salary", "$85,000 - $130,000");
+            outlook.put("growth", "16% (Much faster than average)");
+            outlook.put("demand", "High (Design-centric SaaS products)");
+
+            roadmap.add(Map.of("step", "1. Design Fundamentals", "details", "Color theory, typography, spacing, visual hierarchy."));
+            roadmap.add(Map.of("step", "2. Tool Proficiency", "details", "Figma (components, autolayout, prototyping), Adobe XD."));
+            roadmap.add(Map.of("step", "3. User Research & Wireframing", "details", "User personas, user journeys, low/high-fidelity wireframes."));
+            roadmap.add(Map.of("step", "4. Portfolio Building", "details", "Create 3 detailed case studies solving real-world design problems."));
+
+            platforms.addAll(List.of("Coursera (Google UX Design)", "Interaction Design Foundation (IxDF)", "YouTube (UX Collective)"));
+
+            projects.add(Map.of("title", "E-Commerce Checkout Redesign", "desc", "Redesign the checkout flow of a popular app to reduce cart abandonment.", "steps", "Conduct user surveys, build Figma prototype, perform A/B testing mockups."));
+            projects.add(Map.of("title", "SaaS Analytics Dashboard", "desc", "Design a clean dark-mode dashboard displaying complex data streams.", "steps", "Define info architecture, design grid layouts, establish a components system."));
+        } else if (roleLower.contains("crm") || (roleLower.contains("analyst") && roleLower.contains("crm"))) {
+            outlook.put("salary", "$75,000 - $110,000");
+            outlook.put("growth", "12% (Faster than average)");
+            outlook.put("demand", "Steady (Customer data integration)");
+
+            roadmap.add(Map.of("step", "1. CRM Platforms", "details", "Salesforce Admin basics, Hubspot, Dynamics 365."));
+            roadmap.add(Map.of("step", "2. Data Analytics & Excel", "details", "Pivot tables, VLOOKUP, SQL query basics, PowerBI."));
+            roadmap.add(Map.of("step", "3. Business Process Mapping", "details", "Lead pipelines, customer journeys, marketing automation rules."));
+            roadmap.add(Map.of("step", "4. Integration & Reporting", "details", "Connecting CRM tools with email lists, setting up analytics dashboards."));
+
+            platforms.addAll(List.of("Salesforce Trailhead (Admin Trail)", "Udemy (SQL and CRM Analytics)", "HubSpot Academy"));
+
+            projects.add(Map.of("title", "Sales Pipeline Optimization", "desc", "Audit and restructure a CRM pipeline to automate email nudges.", "steps", "Map stages, set automation rules, build sales conversion report."));
+            projects.add(Map.of("title", "Customer Churn Analysis", "desc", "Extract customer interaction records to identify churn patterns.", "steps", "Group customers, perform cohort analysis in Excel, present recommendations."));
+        } else if (roleLower.contains("data") || roleLower.contains("analyst")) {
+            outlook.put("salary", "$70,000 - $115,000");
+            outlook.put("growth", "25% (Extremely fast)");
+            outlook.put("demand", "Very High (Data-driven decision making)");
+
+            roadmap.add(Map.of("step", "1. Spreadsheet Master", "details", "Advanced Excel formulas, pivot tables, data cleaning."));
+            roadmap.add(Map.of("step", "2. SQL Fundamentals", "details", "Joins, aggregations, subqueries, group by statements."));
+            roadmap.add(Map.of("step", "3. Data Visualization", "details", "Tableau, PowerBI, or Seaborn/Matplotlib in Python."));
+            roadmap.add(Map.of("step", "4. Basic Programming (Python/R)", "details", "Pandas, NumPy, Jupyter Notebooks for data analysis."));
+
+            platforms.addAll(List.of("Kaggle Courses", "Google Data Analytics Professional Certificate", "DataCamp"));
+
+            projects.add(Map.of("title", "Sales & Profitability Dashboard", "desc", "Build an interactive Tableau dashboard visualizing quarterly sales KPIs.", "steps", "Clean transaction history, build maps and charts, publish to Tableau Public."));
+            projects.add(Map.of("title", "Customer Segmentation Notebook", "desc", "Write a Python script segmenting customers based on purchasing frequency.", "steps", "Use RFM (Recency, Frequency, Monetary) analysis, write pandas commands, plot distributions."));
+        } else {
+            outlook.put("salary", "$80,000 - $125,000");
+            outlook.put("growth", "14% (Faster than average)");
+            outlook.put("demand", "High (General business alignment roles)");
+
+            roadmap.add(Map.of("step", "1. Foundation concepts", "details", "Agile methodologies, Scrum framework, backlog grooming."));
+            roadmap.add(Map.of("step", "2. Tooling", "details", "Jira, Confluence, Trello, Slack workflows."));
+            roadmap.add(Map.of("step", "3. Communication & Metrics", "details", "Velocity charts, burndown metrics, stakeholder coordination."));
+
+            platforms.addAll(List.of("Scrum.org", "Coursera (Agile Project Management)", "Atlassian University"));
+
+            projects.add(Map.of("title", "Sprint Retrospective Redesign", "desc", "Construct an optimized retrospective framework to clear team bottlenecks.", "steps", "Gather feedback, create action item dashboards, set automated follow-ups."));
+        }
+
+        response.put("outlook", outlook);
+        response.put("roadmap", roadmap);
+        response.put("platforms", platforms);
+        response.put("projects", projects);
+
+        try {
+            return objectMapper.writeValueAsString(response);
+        } catch (Exception e) {
+            return "{}";
+        }
+    }
 }
